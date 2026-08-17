@@ -1,0 +1,12 @@
+[
+  {
+    "email": "wildlife_enthusiast@example.com",
+    "password": "e7ae19ba1d521e949d08622a739e9f7f1ce73d8bd107a62c9cbe862774b3fbb2eb79d9a1936a907f1fed8abb5c0426f3372d9f4c00e81fa92b373178fb4e6d1b",
+    "createdAt": "2026-08-17T13:48:06.793Z"
+  },
+  {
+    "email": "ahmadtech20@gmail.com",
+    "password": "5e31d21b1270ee42c44e74c1236f2eeec5652a5e7c9b62eb906209675a685c240e70680a4ce93f3030d10b82d1341b5a8c26f24b05a2432e3f9846c919a7164d",
+    "createdAt": "2026-08-17T13:52:21.706Z"
+  }
+]
