@@ -12,14 +12,18 @@ const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<
 
 export async function POST(request: Request) {
   try {
-    const { name, role, email, password } = await request.json();
+    const { lastName, firstName, otherName, role, email, password } = await request.json();
 
-    if (!name || !role || !email || !password) {
-      return NextResponse.json({ error: 'Name, role, email, and password are required' }, { status: 400 });
+    if (!lastName || !firstName || !role || !email || !password) {
+      return NextResponse.json({ error: 'First name, last name, role, email, and password are required' }, { status: 400 });
     }
 
-    if (name.trim().length === 0) {
-      return NextResponse.json({ error: 'Name cannot be empty' }, { status: 400 });
+    if (lastName.trim().length === 0) {
+      return NextResponse.json({ error: 'Last name cannot be empty' }, { status: 400 });
+    }
+
+    if (firstName.trim().length === 0) {
+      return NextResponse.json({ error: 'First name cannot be empty' }, { status: 400 });
     }
 
     if (role.trim().length === 0) {
@@ -48,7 +52,14 @@ export async function POST(request: Request) {
       }
 
       const hashedPassword = hashPassword(password);
-      const saved = saveFallbackUser({ name: name.trim(), role: role.trim(), email, password: hashedPassword });
+      const saved = saveFallbackUser({ 
+        lastName: lastName.trim(), 
+        firstName: firstName.trim(), 
+        otherName: otherName ? otherName.trim() : '', 
+        role: role.trim(), 
+        email, 
+        password: hashedPassword 
+      });
       if (!saved) {
         return NextResponse.json({ error: 'Failed to write to local fallback database' }, { status: 500 });
       }
@@ -61,7 +72,14 @@ export async function POST(request: Request) {
 
       // Create user in MongoDB
       const hashedPassword = hashPassword(password);
-      await User.create({ name: name.trim(), role: role.trim(), email, password: hashedPassword });
+      await User.create({ 
+        lastName: lastName.trim(), 
+        firstName: firstName.trim(), 
+        otherName: otherName ? otherName.trim() : '', 
+        role: role.trim(), 
+        email, 
+        password: hashedPassword 
+      });
     }
 
     // Create session token
