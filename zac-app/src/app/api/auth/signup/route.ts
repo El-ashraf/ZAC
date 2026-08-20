@@ -60,8 +60,8 @@ export async function POST(request: Request) {
         email, 
         password: hashedPassword 
       });
-      if (!saved) {
-        return NextResponse.json({ error: 'Failed to write to local fallback database' }, { status: 500 });
+      if (!saved.success) {
+        return NextResponse.json({ error: `Failed to write to local fallback database: ${saved.error}` }, { status: 500 });
       }
     } else {
       // Check if user already exists in MongoDB

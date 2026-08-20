@@ -27,21 +27,21 @@ export function getFallbackUserDb(): FallbackUser[] {
   }
 }
 
-export function saveFallbackUser(user: FallbackUser): boolean {
+export function saveFallbackUser(user: FallbackUser): { success: boolean; error?: string } {
   try {
     const db = getFallbackUserDb();
     // Check if user already exists
     if (db.some(u => u.email.toLowerCase() === user.email.toLowerCase())) {
-      return false;
+      return { success: false, error: 'User already exists' };
     }
     db.push({
       ...user,
       createdAt: new Date().toISOString()
     });
     fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2), 'utf-8');
-    return true;
-  } catch (error) {
+    return { success: true };
+  } catch (error: any) {
     console.error('Error saving to fallback DB:', error);
-    return false;
+    return { success: false, error: error.message || String(error) };
   }
 }

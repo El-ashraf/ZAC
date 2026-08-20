@@ -8,5 +8,14 @@
     "email": "ahmadtech20@gmail.com",
     "password": "5e31d21b1270ee42c44e74c1236f2eeec5652a5e7c9b62eb906209675a685c240e70680a4ce93f3030d10b82d1341b5a8c26f24b05a2432e3f9846c919a7164d",
     "createdAt": "2026-08-17T13:52:21.706Z"
+  },
+  {
+    "email": "test_1787231054266@example.com",
+    "lastName": "Test",
+    "firstName": "User",
+    "otherName": "",
+    "role": "Naturalist",
+    "password": "somehashpassword",
+    "createdAt": "2026-08-20T13:04:14.267Z"
   }
 ]
