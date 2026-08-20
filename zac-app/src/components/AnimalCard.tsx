@@ -37,9 +37,9 @@ export default function AnimalCard({ animal }: { animal: any }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
       style={{
-        background: 'rgba(15, 23, 18, 0.4)',
+        background: 'var(--bg-card)',
         backdropFilter: 'blur(12px)',
-        border: '1px solid rgba(255, 255, 255, 0.05)',
+        border: '1px solid var(--border)',
         borderRadius: '16px',
         overflow: 'hidden',
         boxShadow: 'none',
@@ -49,8 +49,8 @@ export default function AnimalCard({ animal }: { animal: any }) {
         transition: 'border-color 0.3s ease, background 0.3s ease'
       }}
       whileHover={{
-        borderColor: 'rgba(34, 197, 94, 0.25)',
-        background: 'rgba(15, 23, 18, 0.65)'
+        borderColor: 'var(--border-hover)',
+        background: 'var(--bg-card-hover)'
       }}
     >
       {/* Image container */}
@@ -65,7 +65,7 @@ export default function AnimalCard({ animal }: { animal: any }) {
         />
         
         {/* Modern minimal status dot indicator */}
-        <div style={{ position: 'absolute', top: 12, right: 12, background: 'rgba(0, 0, 0, 0.6)', backdropFilter: 'blur(6px)', padding: '0.3rem 0.75rem', borderRadius: '20px', display: 'flex', alignItems: 'center', gap: '0.4rem', border: '1px solid rgba(255, 255, 255, 0.1)', fontSize: '0.72rem', fontWeight: 600 }}>
+        <div style={{ position: 'absolute', top: 12, right: 12, background: 'var(--bg-glass)', backdropFilter: 'blur(6px)', padding: '0.3rem 0.75rem', borderRadius: '20px', display: 'flex', alignItems: 'center', gap: '0.4rem', border: '1px solid var(--border)', fontSize: '0.72rem', fontWeight: 600 }}>
           <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: statusColor }} />
           <span style={{ color: 'var(--text-primary)' }}>{animal.conservationStatus}</span>
         </div>
@@ -90,7 +90,8 @@ export default function AnimalCard({ animal }: { animal: any }) {
           <p
             style={{
               fontSize: '0.82rem',
-              color: 'rgba(240, 253, 244, 0.7)',
+              color: 'var(--text-primary)',
+              opacity: 0.8,
               lineHeight: 1.55,
               display: '-webkit-box',
               WebkitLineClamp: 3,
@@ -103,7 +104,7 @@ export default function AnimalCard({ animal }: { animal: any }) {
         )}
 
         {/* Footer info (sightings count / wiki link) */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 'auto', paddingTop: '0.75rem', borderTop: '1px solid rgba(255,255,255,0.04)', fontSize: '0.75rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 'auto', paddingTop: '0.75rem', borderTop: '1px solid var(--border)', fontSize: '0.75rem' }}>
           {animal.observationsCount !== undefined ? (
             <span style={{ color: 'var(--text-muted)', fontWeight: 500 }}>
               🔭 {animal.observationsCount?.toLocaleString()} observations

@@ -23,8 +23,13 @@ export default function LayoutWrapper({ children }: { children: React.ReactNode 
   };
 
   const isLoginPage = pathname === '/login';
-  const isLandingPage = pathname === '/';
-  const isClientPage = !isLoginPage && !isLandingPage;
+  const isPublicPage = 
+    pathname === '/' || 
+    pathname === '/about' || 
+    pathname === '/campaigns' || 
+    pathname.startsWith('/blog') || 
+    pathname === '/contact';
+  const isClientPage = !isLoginPage && !isPublicPage;
 
   if (isLoginPage) {
     return <main style={{ width: '100%', minHeight: '100vh' }}>{children}</main>;

@@ -1,0 +1,35 @@
+[
+  {
+    "title": "The Silent Guardians: Tracking Snow Leopards in the Pamir Mountains",
+    "slug": "tracking-snow-leopards-pamir-mountains",
+    "excerpt": "A deep dive into our two-month tracking expedition in the high altitude Pamir range. Exploring remote thermal cameras, footprint molds, and ecosystem health indicator models.",
+    "content": "### The Ghost of the Mountains\n\nFor centuries, the snow leopard (*Panthera uncia*) has reigned as the elusive 'ghost' of the high mountain ranges of Central Asia. During our recent two-month scientific expedition into the Pamir Mountains at elevations exceeding 4,000 meters, we set out to study their density, migratory paths, and overall habitat health.\n\nHistorically, tracking these animals was nearly impossible. Today, however, non-invasive technology has transformed conservation biology. By deploying a network of 48 motion-activated thermal camera traps, we captured 14 high-resolution images of three individual snow leopards.\n\n### The Importance of Footprint Molds\n\nIn addition to camera traps, analyzing physical tracks remains crucial. Plaster molds of fresh footprints help us calculate weight, stride length, and determine the age of individuals. We collected 8 distinct tracks along a steep ridge.\n\nOur findings suggest that the local snow leopard population remains stable but fragile. The primary threats include habitat fragmentation and a decline in natural prey, such as the Siberian ibex. Protecting these high-altitude corridors is essential for the long-term survival of the species.",
+    "category": "Field Notes",
+    "author": "Dr. Elena Rostov",
+    "coverImage": "https://images.unsplash.com/photo-1615966650071-855b15f29ad1?auto=format&fit=crop&q=80&w=800",
+    "readTime": "6 min read",
+    "createdAt": "2026-08-18T10:12:00.000Z"
+  },
+  {
+    "title": "Deep Sea Discoveries: Bioluminescent Micro-Ecosystems",
+    "slug": "bioluminescent-micro-ecosystems",
+    "excerpt": "Analyzing the critical role of bioluminescence in deep sea food webs. Exploring new species cataloged during our recent oceanic research dive off the Pacific trench.",
+    "content": "### Diving into the Midnight Zone\n\nAt depths below 1,000 meters, the ocean exists in complete, crushing darkness. Yet, this abyss is far from lifeless. During ZAC's collaborative research dive off the Mariana Trench, our deep-sea submersible observed an astonishing variety of organisms utilizing bioluminescence—chemical light produced within their bodies.\n\nBioluminescence serves several survival functions: attracting prey, confusing predators, and finding mates. We documented a previously unrecorded species of jellyfish (*Aequorea scintillans*) that emits soft emerald pulses when threatened.\n\n### Mapping the Deep Food Web\n\nBy gathering organic tissue samples, we mapped the energy flows of this micro-ecosystem. Deep-sea biodiversity is highly vulnerable to industrial seabed exploitation. Safeguarding these fragile benthic zones is critical to the health of the entire global ocean system.",
+    "category": "Research",
+    "author": "Marcus Vance",
+    "coverImage": "https://images.unsplash.com/photo-1546026423-cc4642628d2b?auto=format&fit=crop&q=80&w=800",
+    "readTime": "8 min read",
+    "createdAt": "2026-08-15T14:45:00.000Z"
+  },
+  {
+    "title": "Restoring the Java Rhino: A Critical Forest Restoration Initiative",
+    "slug": "restoring-java-rhino-habitat-restoration",
+    "excerpt": "An update on our reforestation efforts in Ujung Kulon National Park. Planting critical food resources to expand the foraging range of the last 75 Javan rhinos.",
+    "content": "### The Rarest Large Mammal on Earth\n\nWith only about 75 individuals remaining, the Javan rhinoceros (*Rhinoceros sondaicus*) is critically endangered. Their entire surviving population is concentrated in a single location: Ujung Kulon National Park in Java, Indonesia.\n\nOur latest expedition focused on restoring degraded buffer zones of the park. Over three weeks, our volunteer teams planted 1,200 saplings of native food plants, such as wild ginger and various fig species.\n\n### Expanding the Foraging Corridor\n\nBy replanting these corridors, we aim to encourage the rhinos to expand their foraging range, reducing the density in the core park areas and mitigating the risk of disease transmission. Active, community-led forest restoration remains our best hope to save this magnificent species.",
+    "category": "Expeditions",
+    "author": "Ahmad Tech",
+    "coverImage": "https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&q=80&w=800",
+    "readTime": "5 min read",
+    "createdAt": "2026-08-10T09:30:00.000Z"
+  }
+]

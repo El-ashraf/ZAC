@@ -5,11 +5,18 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { 
   Menu, X, ShieldAlert, User, LogIn, LogOut, ChevronDown,
-  LayoutDashboard, Database, RefreshCw, ChevronLeft, ChevronRight, Home, Globe
+  LayoutDashboard, Database, RefreshCw, ChevronLeft, ChevronRight, Home, Globe, Sun, Moon, Sparkles, MessageSquare, BookOpen
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const LINKS = [
+const PUBLIC_LINKS = [
+  { href: '/about',     label: 'About',     icon: Globe },
+  { href: '/campaigns', label: 'Campaigns', icon: Sparkles },
+  { href: '/blog',      label: 'Blog',      icon: BookOpen },
+  { href: '/contact',   label: 'Contact',   icon: MessageSquare },
+];
+
+const INTERNAL_LINKS = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/animals',   label: 'Database', icon: Database },
   { href: '/inaturalist', label: 'iNaturalist Sync', icon: RefreshCw },
@@ -33,6 +40,7 @@ export default function Navbar({
   const [isMobile, setIsMobile] = useState(false);
   const [user, setUser] = useState<{ email: string; name?: string; avatar?: string } | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
 
   const checkAuth = async () => {
     try {
@@ -77,7 +85,18 @@ export default function Navbar({
     }
   };
 
-  // Responsive layout listener and auth sync
+  const toggleTheme = () => {
+    const nextTheme = theme === 'dark' ? 'light' : 'dark';
+    setTheme(nextTheme);
+    localStorage.setItem('zac_theme', nextTheme);
+    if (nextTheme === 'light') {
+      document.documentElement.setAttribute('data-theme', 'light');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+    }
+  };
+
+  // Responsive layout listener, auth sync, and theme init
   useEffect(() => {
     const handleResize = () => {
       const mobile = window.innerWidth <= 768;
@@ -92,11 +111,19 @@ export default function Navbar({
     checkAuth();
     window.addEventListener('auth-change', checkAuth);
 
+    const savedTheme = localStorage.getItem('zac_theme') || 'dark';
+    setTheme(savedTheme as 'dark' | 'light');
+    if (savedTheme === 'light') {
+      document.documentElement.setAttribute('data-theme', 'light');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+    }
+
     return () => {
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('auth-change', checkAuth);
     };
-  }, []);
+  }, [theme]);
 
   // Close mobile menu on path changes
   useEffect(() => {
@@ -122,7 +149,7 @@ export default function Navbar({
         {!isMobile && (
           <>
             <div className="nav-links">
-              {LINKS.map(({ href, label }) => (
+              {PUBLIC_LINKS.map(({ href, label }) => (
                 <Link
                   key={href}
                   href={href}
@@ -131,91 +158,69 @@ export default function Navbar({
                   {label}
                 </Link>
               ))}
+              {user && (
+                <Link
+                  href="/dashboard"
+                  className={`nav-link ${path === '/dashboard' ? 'active' : ''}`}
+                  style={{ color: 'var(--primary)', fontWeight: 700 }}
+                >
+                  Dashboard
+                </Link>
+              )}
             </div>
 
+            {/* Theme Toggle Button */}
+            <button
+              onClick={toggleTheme}
+              style={{
+                background: 'none',
+                border: 'none',
+                color: 'var(--text-secondary)',
+                cursor: 'pointer',
+                padding: '0.4rem',
+                marginRight: '0.5rem',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'color 0.2s',
+              }}
+              title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+            >
+              {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+            </button>
+
             {user ? (
-              <div style={{ position: 'relative' }}>
-                <button 
-                  onClick={() => setMenuOpen(!menuOpen)}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                <Link 
+                  href="/dashboard" 
+                  className="btn"
                   style={{
-                    background: 'rgba(255,255,255,0.04)',
-                    border: '1px solid var(--border)',
-                    color: '#fff',
+                    padding: '0.45rem 1.2rem',
+                    fontSize: '0.85rem',
+                    fontWeight: 700
+                  }}
+                >
+                  Dashboard
+                </Link>
+                <button 
+                  onClick={handleLogout}
+                  style={{
+                    background: 'rgba(239, 68, 68, 0.08)',
+                    border: '1px solid rgba(239, 68, 68, 0.2)',
+                    color: '#f87171',
                     borderRadius: '40px',
-                    padding: '0.4rem 1.1rem',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.5rem',
+                    padding: '0.45rem 1.1rem',
                     cursor: 'pointer',
                     fontSize: '0.85rem',
+                    fontWeight: 600,
+                    transition: 'background 0.2s',
                     outline: 'none',
-                    transition: 'border-color 0.2s',
                   }}
-                  onMouseEnter={() => setMenuOpen(true)}
+                  onMouseEnter={e => e.currentTarget.style.background = 'rgba(239, 68, 68, 0.15)'}
+                  onMouseLeave={e => e.currentTarget.style.background = 'rgba(239, 68, 68, 0.08)'}
                 >
-                  <User size={15} style={{ color: 'var(--primary)' }} />
-                  <span style={{ maxWidth: '120px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                    {user.email.split('@')[0]}
-                  </span>
-                  <ChevronDown size={12} style={{ transition: 'transform 0.2s', transform: menuOpen ? 'rotate(180deg)' : 'none' }} />
+                  Log Out
                 </button>
-
-                {/* Dropdown Menu */}
-                <AnimatePresence>
-                  {menuOpen && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 10 }}
-                      onMouseLeave={() => setMenuOpen(false)}
-                      style={{
-                        position: 'absolute',
-                        top: '40px',
-                        right: 0,
-                        background: 'rgba(10, 15, 13, 0.95)',
-                        backdropFilter: 'blur(20px)',
-                        border: '1px solid var(--border)',
-                        borderRadius: '12px',
-                        padding: '0.5rem',
-                        minWidth: '160px',
-                        boxShadow: '0 8px 30px rgba(0,0,0,0.5)',
-                        zIndex: 1050,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: '0.2rem'
-                      }}
-                    >
-                      <Link href="/profile" className="nav-link" style={{ fontSize: '0.82rem', padding: '0.5rem' }}>
-                        My Profile
-                      </Link>
-                      <Link href="/admin" className="nav-link" style={{ fontSize: '0.82rem', padding: '0.5rem' }}>
-                        Admin Portal
-                      </Link>
-                      <div style={{ height: '1px', background: 'var(--border)', margin: '0.25rem 0' }} />
-                      <button 
-                        onClick={handleLogout}
-                        style={{
-                          background: 'none',
-                          border: 'none',
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '0.5rem',
-                          padding: '0.5rem',
-                          fontSize: '0.82rem',
-                          color: '#f87171',
-                          width: '100%',
-                          textAlign: 'left',
-                          cursor: 'pointer',
-                          borderRadius: '6px'
-                        }}
-                        className="nav-link"
-                      >
-                        <LogOut size={14} />
-                        Logout
-                      </button>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
               </div>
             ) : (
               <Link 
@@ -270,7 +275,7 @@ export default function Navbar({
                 top: '68px',
                 left: 0,
                 right: 0,
-                background: 'rgba(10, 15, 13, 0.95)',
+                background: 'var(--bg-drawer)',
                 backdropFilter: 'blur(20px)',
                 borderBottom: '1px solid var(--border)',
                 padding: '1.5rem',
@@ -281,23 +286,7 @@ export default function Navbar({
                 boxShadow: '0 10px 30px rgba(0,0,0,0.5)'
               }}
             >
-              {user && (
-                <div style={{
-                  padding: '0.5rem 1rem',
-                  fontSize: '0.85rem',
-                  color: 'var(--text-secondary)',
-                  borderBottom: '1px solid var(--border)',
-                  marginBottom: '0.25rem',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.5rem'
-                }}>
-                  <User size={14} style={{ color: 'var(--primary)' }} />
-                  <span>Logged in: <strong>{user.email}</strong></span>
-                </div>
-              )}
-
-              {LINKS.map(({ href, label }) => (
+              {PUBLIC_LINKS.map(({ href, label }) => (
                 <Link
                   key={href}
                   href={href}
@@ -315,20 +304,48 @@ export default function Navbar({
                 </Link>
               ))}
 
-              <Link 
-                href="/admin" 
-                className="btn"
+              {user && (
+                <Link
+                  href="/dashboard"
+                  className={`nav-link ${path === '/dashboard' ? 'active' : ''}`}
+                  style={{
+                    fontSize: '1rem',
+                    padding: '0.75rem 1rem',
+                    borderRadius: '8px',
+                    display: 'block',
+                    textAlign: 'center',
+                    background: path === '/dashboard' ? 'rgba(34,197,94,0.08)' : 'transparent',
+                    color: 'var(--primary)',
+                    fontWeight: 700
+                  }}
+                >
+                  Dashboard
+                </Link>
+              )}
+
+              {/* Theme Toggle in Mobile Drawer */}
+              <button
+                onClick={toggleTheme}
                 style={{
-                  textAlign: 'center',
+                  background: 'none',
+                  border: '1px solid var(--border)',
+                  color: 'var(--text-secondary)',
                   padding: '0.75rem',
                   fontSize: '1rem',
                   borderRadius: '40px',
                   marginTop: '0.5rem',
-                  display: 'block'
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '0.5rem',
+                  width: '100%',
+                  cursor: 'pointer',
+                  fontWeight: 700
                 }}
               >
-                Admin Portal
-              </Link>
+                {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+                <span>{theme === 'dark' ? 'Light Theme' : 'Dark Theme'}</span>
+              </button>
 
               {user ? (
                 <button 
@@ -377,37 +394,69 @@ export default function Navbar({
 
   // Helper to render sidebar items
   const renderSidebarLinks = () => {
-    return LINKS.map(({ href, label, icon: Icon }) => {
-      const isActive = path === href;
-      return (
-        <Link
-          key={href}
-          href={href}
-          className={`sidebar-link ${isActive ? 'active' : ''}`}
-          title={isCollapsed && !isMobile ? label : undefined}
+    return (
+      <>
+        {INTERNAL_LINKS.map(({ href, label, icon: Icon }) => {
+          const isActive = path === href;
+          return (
+            <Link
+              key={href}
+              href={href}
+              className={`sidebar-link ${isActive ? 'active' : ''}`}
+              title={isCollapsed && !isMobile ? label : undefined}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: isCollapsed && !isMobile ? '0' : '0.85rem',
+                padding: '0.75rem 1rem',
+                borderRadius: '10px',
+                color: isActive ? 'var(--primary)' : 'var(--text-secondary)',
+                background: isActive ? 'rgba(34, 197, 94, 0.08)' : 'transparent',
+                transition: 'all 0.2s ease',
+                justifyContent: isCollapsed && !isMobile ? 'center' : 'flex-start',
+                textDecoration: 'none',
+                fontSize: '0.92rem',
+                fontWeight: 500,
+                overflow: 'hidden',
+              }}
+            >
+              <Icon size={20} style={{ flexShrink: 0 }} />
+              {(!isCollapsed || isMobile) && (
+                <span style={{ whiteSpace: 'nowrap', transition: 'opacity 0.2s' }}>{label}</span>
+              )}
+            </Link>
+          );
+        })}
+
+        {/* Theme Toggle inside Sidebar */}
+        <button
+          onClick={toggleTheme}
+          className="sidebar-link"
+          title={isCollapsed && !isMobile ? 'Toggle Light/Dark Theme' : undefined}
           style={{
             display: 'flex',
             alignItems: 'center',
             gap: isCollapsed && !isMobile ? '0' : '0.85rem',
             padding: '0.75rem 1rem',
             borderRadius: '10px',
-            color: isActive ? 'var(--primary)' : 'var(--text-secondary)',
-            background: isActive ? 'rgba(34, 197, 94, 0.08)' : 'transparent',
+            color: 'var(--text-secondary)',
+            background: 'transparent',
+            border: 'none',
+            cursor: 'pointer',
             transition: 'all 0.2s ease',
             justifyContent: isCollapsed && !isMobile ? 'center' : 'flex-start',
-            textDecoration: 'none',
+            width: '100%',
+            textAlign: 'left',
             fontSize: '0.92rem',
-            fontWeight: 500,
-            overflow: 'hidden',
           }}
+          onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'}
+          onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
         >
-          <Icon size={20} style={{ flexShrink: 0 }} />
-          {(!isCollapsed || isMobile) && (
-            <span style={{ whiteSpace: 'nowrap', transition: 'opacity 0.2s' }}>{label}</span>
-          )}
-        </Link>
-      );
-    });
+          {theme === 'dark' ? <Sun size={20} style={{ flexShrink: 0 }} /> : <Moon size={20} style={{ flexShrink: 0 }} />}
+          {(!isCollapsed || isMobile) && <span style={{ whiteSpace: 'nowrap' }}>{theme === 'dark' ? 'Light Theme' : 'Dark Theme'}</span>}
+        </button>
+      </>
+    );
   };
 
   // Render Left-Hand Sidebar Navigation for Client Pages
@@ -421,7 +470,7 @@ export default function Navbar({
           left: 0,
           right: 0,
           height: '60px',
-          background: 'rgba(10, 15, 13, 0.85)',
+          background: 'var(--bg-navbar)',
           backdropFilter: 'blur(20px)',
           borderBottom: '1px solid var(--border)',
           display: 'flex',
@@ -486,7 +535,7 @@ export default function Navbar({
                 left: 0,
                 bottom: 0,
                 width: isMobile ? '280px' : undefined,
-                background: 'rgba(10, 15, 13, 0.95)',
+                background: 'var(--bg-drawer)',
                 backdropFilter: 'blur(20px)',
                 borderRight: '1px solid var(--border)',
                 zIndex: 1001,

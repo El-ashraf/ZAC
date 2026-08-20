@@ -17,9 +17,15 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // Public pages: Landing page (/) and Login page (/login)
-  const isLandingPage = pathname === '/';
+  // Public pages: Landing page, Login page, and new landing pages
   const isLoginPage = pathname.startsWith('/login');
+  const isPublicPage = 
+    pathname === '/' || 
+    pathname.startsWith('/login') || 
+    pathname.startsWith('/about') || 
+    pathname.startsWith('/campaigns') || 
+    pathname.startsWith('/blog') || 
+    pathname.startsWith('/contact');
 
   if (isLoginPage && token) {
     // If already logged in, skip login page and go to dashboard
@@ -29,8 +35,8 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  // Allow access to landing page or login page without token
-  if (isLandingPage || isLoginPage) {
+  // Allow access to public pages without token
+  if (isPublicPage) {
     return NextResponse.next();
   }
 
