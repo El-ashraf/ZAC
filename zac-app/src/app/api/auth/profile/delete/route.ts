@@ -5,6 +5,7 @@ import dbConnect from '@/lib/mongodb';
 import User from '@/models/User';
 import fs from 'fs';
 import path from 'path';
+import { getDbFilePath } from '@/lib/db-fallback';
 
 export async function POST() {
   try {
@@ -28,7 +29,7 @@ export async function POST() {
     }
 
     if (isLocalFallback) {
-      const DB_FILE = path.join(process.cwd(), 'users_db.json');
+      const DB_FILE = getDbFilePath();
       if (fs.existsSync(DB_FILE)) {
         const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'));
         const filteredDb = db.filter((u: any) => u.email.toLowerCase() !== payload.email.toLowerCase());
