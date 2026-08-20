@@ -1,12 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Mail, Lock, CheckCircle2, ShieldAlert, ArrowRight, Eye, EyeOff, User, Briefcase, Camera, ArrowRightLeft } from 'lucide-react';
 import Link from 'next/link';
 
-export default function LoginPage() {
+function LoginContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('callbackUrl') || '/dashboard';
@@ -638,31 +638,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div style={{
-      minHeight: '90vh',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      padding: '2rem 1rem',
-      position: 'relative',
-    }}>
-      {/* Background Image & Overlay */}
-      <div style={{
-        position: 'fixed',
-        inset: 0,
-        zIndex: -1,
-        backgroundImage: `url('https://images.unsplash.com/photo-1470115636492-6d2b56f9146d?auto=format&fit=crop&q=80&w=1920')`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundAttachment: 'fixed',
-      }} />
-      <div style={{
-        position: 'fixed',
-        inset: 0,
-        zIndex: -1,
-        background: 'rgba(8, 12, 10, 0.85)',
-      }} />
-
+    <>
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -775,6 +751,44 @@ export default function LoginPage() {
           100% { transform: rotate(360deg); }
         }
       `}</style>
+    </>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <div style={{
+      minHeight: '90vh',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '2rem 1rem',
+      position: 'relative',
+    }}>
+      {/* Background Image & Overlay */}
+      <div style={{
+        position: 'fixed',
+        inset: 0,
+        zIndex: -1,
+        backgroundImage: `url('https://images.unsplash.com/photo-1470115636492-6d2b56f9146d?auto=format&fit=crop&q=80&w=1920')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed',
+      }} />
+      <div style={{
+        position: 'fixed',
+        inset: 0,
+        zIndex: -1,
+        background: 'rgba(8, 12, 10, 0.85)',
+      }} />
+
+      <Suspense fallback={
+        <div style={{ color: '#fff', fontSize: '1rem', fontFamily: 'var(--font-display)' }}>
+          Loading login interface...
+        </div>
+      }>
+        <LoginContent />
+      </Suspense>
     </div>
   );
 }
