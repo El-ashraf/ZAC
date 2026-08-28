@@ -3,7 +3,7 @@ import { useEffect, useState, useCallback, useRef } from 'react';
 import AnimalCard from '@/components/AnimalCard';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Compass, Calendar, ArrowRight, BookOpen, Globe, ChevronLeft, ChevronRight, Info, AlertTriangle, Sparkles, MapPin } from 'lucide-react';
+import { ArrowRight, ChevronLeft, ChevronRight, MapPin } from 'lucide-react';
 
 type Animal = Record<string, any>;
 type Sighting = { id: number; observedOn: string; place: string; userName: string; photoUrl: string | null; uri: string };
@@ -24,32 +24,32 @@ const FACTS = [
 ];
 
 const STATUS_STYLE: Record<string, { bg: string; color: string; border: string }> = {
-  'Critically Endangered': { bg: 'rgba(239, 68, 68, 0.08)',  color: '#f87171', border: 'rgba(239, 68, 68, 0.25)' },
-  'Endangered':            { bg: 'rgba(249, 115, 22, 0.08)', color: '#fb923c', border: 'rgba(249, 115, 22, 0.25)' },
-  'Vulnerable':            { bg: 'rgba(234, 179, 8, 0.08)',  color: '#facc15', border: 'rgba(234, 179, 8, 0.25)' },
-  'Near Threatened':       { bg: 'rgba(16, 185, 129, 0.08)', color: '#34d399', border: 'rgba(16, 185, 129, 0.25)' },
-  'Least Concern':         { bg: 'rgba(34, 197, 94, 0.08)',  color: '#4ade80', border: 'rgba(34, 197, 94, 0.25)' },
-  'Extinct':               { bg: 'rgba(148, 163, 184, 0.08)', color: '#94a3b8', border: 'rgba(148, 163, 184, 0.25)' },
-  'Threatened':            { bg: 'rgba(249, 115, 22, 0.08)', color: '#fb923c', border: 'rgba(249, 115, 22, 0.25)' },
+  'Critically Endangered': { bg: 'rgba(239, 68, 68, 0.10)',  color: '#f87171', border: 'rgba(239, 68, 68, 0.3)' },
+  'Endangered':            { bg: 'rgba(249, 115, 22, 0.10)', color: '#fb923c', border: 'rgba(249, 115, 22, 0.3)' },
+  'Vulnerable':            { bg: 'rgba(234, 179, 8, 0.10)',  color: '#facc15', border: 'rgba(234, 179, 8, 0.3)' },
+  'Near Threatened':       { bg: 'rgba(16, 185, 129, 0.10)', color: '#34d399', border: 'rgba(16, 185, 129, 0.3)' },
+  'Least Concern':         { bg: 'rgba(34, 197, 94, 0.10)',  color: '#4ade80', border: 'rgba(34, 197, 94, 0.3)' },
+  'Extinct':               { bg: 'rgba(148, 163, 184, 0.10)', color: '#94a3b8', border: 'rgba(148, 163, 184, 0.3)' },
+  'Threatened':            { bg: 'rgba(249, 115, 22, 0.10)', color: '#fb923c', border: 'rgba(249, 115, 22, 0.3)' },
 };
 
 function StatusPill({ status }: { status: string }) {
-  const s = STATUS_STYLE[status] || { bg: 'rgba(99, 102, 241, 0.08)', color: '#a5b4fc', border: 'rgba(99, 102, 241, 0.2)' };
+  const s = STATUS_STYLE[status] || { bg: 'rgba(34,197,94,0.10)', color: '#4ade80', border: 'rgba(34,197,94,0.3)' };
   return (
-    <span style={{ 
-      background: s.bg, 
-      color: s.color, 
-      padding: '0.35rem 0.9rem', 
-      borderRadius: '40px', 
-      fontWeight: 700, 
-      fontSize: '0.75rem', 
+    <span style={{
+      background: s.bg,
+      color: s.color,
+      padding: '0.3rem 0.75rem',
+      borderRadius: '5px',
+      fontWeight: 700,
+      fontSize: '0.66rem',
       border: `1px solid ${s.border}`,
-      letterSpacing: '0.3px',
+      letterSpacing: '0.8px',
       textTransform: 'uppercase',
       display: 'inline-flex',
       alignItems: 'center',
-      gap: '0.3rem',
-      boxShadow: '0 2px 10px rgba(0,0,0,0.2)'
+      gap: '0.35rem',
+      fontFamily: 'var(--font-display)',
     }}>
       <span style={{ width: 6, height: 6, borderRadius: '50%', background: s.color, display: 'inline-block' }} />
       {status}
@@ -80,10 +80,10 @@ function rewriteDescription(description: string, name: string, scientificName: s
   if (!description || description.trim() === '' || description.includes('is a threatened species tracked by')) {
     return getFallbackDescription(name, category);
   }
-  
+
   let cleaned = description.replace(/<[^>]*>/g, '');
   cleaned = cleaned.replace(/\[\d+\]/g, '');
-  
+
   const nameParts = scientificName.split(' ');
   const regexPattern = new RegExp(`\\(\\s*${nameParts[0]}\\s*${nameParts[1] || ''}[^)]*\\)`, 'gi');
   cleaned = cleaned.replace(regexPattern, '');
@@ -104,7 +104,7 @@ export default function Home() {
   const [weekNumber, setWeekNumber] = useState<number | null>(null);
   const [redList, setRedList] = useState<Animal[]>([]);
   const [recentAnimals, setRecentAnimals] = useState<Animal[]>([]);
-  
+
   // Facts Carousel States
   const [factIndex, setFactIndex] = useState(0);
   const [isFactPaused, setIsFactPaused] = useState(false);
@@ -163,7 +163,7 @@ export default function Home() {
     progressInterval.current = setInterval(() => {
       currentStep++;
       const nextProgress = (currentStep / steps) * 100;
-      
+
       if (nextProgress >= 100) {
         setFactProgress(0);
         setFactIndex((p) => (p + 1) % FACTS.length);
@@ -202,9 +202,21 @@ export default function Home() {
     return () => window.removeEventListener('auth-change', checkHomeAuth);
   }, []);
 
+  const sectionHeaderStyle: React.CSSProperties = {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
+    flexWrap: 'wrap',
+    gap: '1rem',
+    marginBottom: '2rem',
+    flex: 1,
+    minWidth: 240,
+  };
+
   return (
-    <main style={{ position: 'relative', overflowX: 'hidden' }}>
-      
+    <main
+      style={{ position: 'relative', overflowX: 'hidden', ['--font-display' as string]: "'Space Grotesk', 'Inter', sans-serif" }}
+    >
       {/* Background Image & Overlay */}
       <div style={{
         position: 'fixed',
@@ -222,409 +234,169 @@ export default function Home() {
         background: 'var(--bg-gradient)',
       }} />
 
-      {/* Decorative ambient glowing mesh lights */}
-      <div style={{
-        position: 'fixed',
-        top: '15%',
-        left: '20%',
-        width: '450px',
-        height: '450px',
-        background: 'var(--primary-glow)',
-        filter: 'blur(130px)',
-        borderRadius: '50%',
-        opacity: 0.25,
-        pointerEvents: 'none',
-        zIndex: -1
-      }} />
-      <div style={{
-        position: 'fixed',
-        bottom: '25%',
-        right: '15%',
-        width: '500px',
-        height: '500px',
-        background: 'rgba(245, 158, 11, 0.08)',
-        filter: 'blur(150px)',
-        borderRadius: '50%',
-        opacity: 0.2,
-        pointerEvents: 'none',
-        zIndex: -1
-      }} />
-
-      {/* Hero Section */}
-      <section className="hero" style={{ minHeight: '85vh', padding: '3.5rem 1rem' }}>
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
+      {/* ── Hero ── */}
+      <section className="hero" style={{ minHeight: '82vh', padding: '4rem 1.25rem 2rem' }}>
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: 'easeOut' }}
-          className="hero-content" 
-          style={{ maxWidth: '840px', width: '100%' }}
+          transition={{ duration: 0.7, ease: 'easeOut' }}
+          className="mono-panel"
+          style={{ maxWidth: '780px', width: '100%', margin: '0 auto', padding: '3rem 2.5rem', textAlign: 'left' }}
         >
-          <div className="glass" style={{
-            padding: '3rem 2.5rem',
-            borderRadius: '24px',
-            border: '1px solid rgba(34, 197, 94, 0.2)',
-            boxShadow: '0 25px 60px rgba(0,0,0,0.65), inset 0 1px 0 rgba(255,255,255,0.08)',
-            position: 'relative',
-            overflow: 'hidden'
+          <div style={{ display: 'flex', gap: '0.8rem', flexWrap: 'wrap', marginBottom: '1.6rem', alignItems: 'center' }}>
+            <span className="mono-eyebrow" style={{ background: 'rgba(34,197,94,0.06)', border: '1px solid rgba(34,197,94,0.22)', padding: '0.32rem 0.85rem', borderRadius: '5px' }}>
+              <span className="live-badge" style={{ padding: 0, border: 'none', background: 'none', color: 'var(--primary)' }} />
+              Live Conservation Network
+            </span>
+
+            {user ? (
+              <Link href="/profile" className="mono-label" style={{
+                padding: '0.32rem 0.85rem', borderRadius: '5px', fontSize: '0.66rem', letterSpacing: '1px',
+                background: 'rgba(34,197,94,0.06)', border: '1px solid rgba(34,197,94,0.25)', color: '#fff',
+              }}>
+                {user.email.split('@')[0]}
+              </Link>
+            ) : (
+              <Link href="/login" className="mono-label" style={{
+                padding: '0.32rem 0.85rem', borderRadius: '5px', fontSize: '0.66rem', letterSpacing: '1px',
+                background: 'rgba(245,158,11,0.05)', border: '1px solid rgba(245,158,11,0.25)', color: 'var(--accent)',
+              }}>
+                Log In / Sign Up
+              </Link>
+            )}
+          </div>
+
+          <h1 style={{
+            fontFamily: 'var(--font-display)', letterSpacing: '-2px', fontWeight: 700,
+            fontSize: 'clamp(2.4rem, 6vw, 4.2rem)', lineHeight: 1.05, marginBottom: '1.1rem',
           }}>
-            {/* Soft inner glow line */}
-            <div style={{
-              position: 'absolute',
-              top: 0,
-              left: '10%',
-              right: '10%',
-              height: '1px',
-              background: 'linear-gradient(90deg, transparent, var(--primary), transparent)',
-              opacity: 0.6
-            }} />
+            Nature in <span style={{
+              background: 'linear-gradient(135deg, #4ade80 0%, #22c55e 60%, #16a34a 100%)',
+              WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+            }}>Focus</span>
+          </h1>
 
-            <div style={{ display: 'flex', gap: '0.8rem', flexWrap: 'wrap', marginBottom: '1.8rem', justifyContent: 'center', alignItems: 'center' }}>
-              <div className="hero-eyebrow" style={{ 
-                background: 'rgba(34,197,94,0.06)', 
-                border: '1px solid rgba(34,197,94,0.22)', 
-                color: 'var(--primary)', 
-                marginBottom: 0,
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                boxShadow: '0 0 15px rgba(34,197,94,0.05)'
-              }}>
-                <span className="live-badge" style={{ padding: 0, border: 'none', background: 'none', color: 'var(--primary)' }} />
-                LIVE CONSERVATION NETWORK
-              </div>
+          <p style={{
+            fontSize: 'clamp(0.98rem, 2vw, 1.12rem)', color: 'var(--text-secondary)', fontWeight: 400,
+            lineHeight: 1.65, marginBottom: '2.2rem', maxWidth: '560px',
+          }}>
+            Track global biodiversity in real time — species distributions, conservation status, and live observations from iNaturalist.
+          </p>
 
-              {user ? (
-                <Link href="/profile" style={{ 
-                  display: 'flex', 
-                  alignItems: 'center', 
-                  gap: '0.45rem', 
-                  fontSize: '0.78rem', 
-                  fontWeight: 700, 
-                  padding: '0.4rem 1.1rem', 
-                  borderRadius: '20px', 
-                  background: 'rgba(34,197,94,0.1)', 
-                  border: '1px solid rgba(34,197,94,0.3)',
-                  color: '#fff',
-                  transition: 'all 0.25s ease',
-                  boxShadow: '0 2px 10px rgba(0,0,0,0.2)'
-                }}
-                  onMouseEnter={(e) => e.currentTarget.style.borderColor = 'var(--primary)'}
-                  onMouseLeave={(e) => e.currentTarget.style.borderColor = 'rgba(34,197,94,0.3)'}
-                >
-                  <span>👤 {user.email.split('@')[0]}</span>
-                </Link>
-              ) : (
-                <Link href="/login" style={{ 
-                  display: 'flex', 
-                  alignItems: 'center', 
-                  gap: '0.45rem', 
-                  fontSize: '0.78rem', 
-                  fontWeight: 700, 
-                  padding: '0.4rem 1.1rem', 
-                  borderRadius: '20px', 
-                  background: 'rgba(245,158,11,0.08)', 
-                  border: '1px solid rgba(245,158,11,0.22)',
-                  color: 'var(--accent)',
-                  transition: 'all 0.25s ease',
-                  boxShadow: '0 2px 10px rgba(0,0,0,0.2)'
-                }}
-                  onMouseEnter={(e) => e.currentTarget.style.borderColor = 'var(--accent)'}
-                  onMouseLeave={(e) => e.currentTarget.style.borderColor = 'rgba(245,158,11,0.22)'}
-                >
-                  <span>🔑 Log In / Sign Up</span>
-                </Link>
-              )}
-            </div>
-
-            <h1 style={{ 
-              letterSpacing: '-2px', 
-              fontWeight: 800, 
-              fontSize: 'clamp(2.2rem, 6.2vw, 4.4rem)',
-              lineHeight: 1.1,
-              marginBottom: '1.25rem'
-            }}>
-              Nature in <span className="highlight" style={{ 
-                fontWeight: 900,
-                background: 'linear-gradient(135deg, #4ade80 0%, #22c55e 50%, #16a34a 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-              }}>Focus</span>
-            </h1>
-
-            <p style={{ 
-              fontSize: 'clamp(0.95rem, 2.2vw, 1.15rem)', 
-              color: 'var(--text-secondary)', 
-              fontWeight: 400, 
-              lineHeight: 1.7, 
-              marginBottom: '2.5rem',
-              maxWidth: '650px'
-            }}>
-              Discover, catalog, and preserve our planet's rich biodiversity. Access real-time species distributions, conservation statuses, and live observations synced from iNaturalist.
-            </p>
-
-            <div className="hero-cta" style={{ justifyContent: 'center' }}>
-              <Link href="/dashboard" className="btn-hero" style={{ 
-                padding: '0.85rem 2.2rem',
-                fontSize: '0.95rem',
-                boxShadow: '0 10px 25px rgba(34, 197, 94, 0.4)'
-              }}>
-                Enter Dashboard <ArrowRight size={16} />
-              </Link>
-              <Link href="/animals" className="btn-hero-outline" style={{ 
-                padding: '0.85rem 2.2rem',
-                fontSize: '0.95rem',
-                border: '1.5px solid rgba(255, 255, 255, 0.2)'
-              }}
-                onMouseEnter={(e) => e.currentTarget.style.borderColor = 'var(--primary)'}
-                onMouseLeave={(e) => e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)'}
-              >
-                Database Search
-              </Link>
-            </div>
+          <div style={{ display: 'flex', gap: '0.9rem', flexWrap: 'wrap' }}>
+            <Link href="/dashboard" className="btn-mono" style={{ padding: '0.8rem 1.8rem', fontSize: '0.82rem' }}>
+              Enter Dashboard <ArrowRight size={15} />
+            </Link>
+            <Link href="/animals" className="btn-mono-outline" style={{ padding: '0.8rem 1.8rem', fontSize: '0.82rem' }}>
+              Database Search
+            </Link>
           </div>
         </motion.div>
       </section>
 
-      {/* Grid-based Premium Stats Section */}
-      <section style={{ 
-        position: 'relative', 
-        padding: '0 2rem 4rem', 
-        maxWidth: 1200, 
-        margin: '0 auto',
-        marginTop: '-3rem'
-      }}>
-        <div style={{ 
-          display: 'grid', 
-          gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', 
-          gap: '1.5rem'
-        }}>
+      {/* ── Stats Strip ── */}
+      <section style={{ maxWidth: 1100, margin: '0 auto', padding: '0 1.25rem 3.5rem' }}>
+        <div className="mono-stat-strip">
           {[
-            { num: '900K+', label: 'Active Naturalists', icon: <Compass size={22} />, desc: 'Global community logs' },
-            { num: '50M+', label: 'Logged Observations', icon: <Globe size={22} />, desc: 'Real-time sightings verified' },
-            { num: '150K+', label: 'Species Cataloged', icon: <BookOpen size={22} />, desc: 'Rich biological data' },
-            { num: 'iNaturalist API', label: 'Data Integration', icon: <Sparkles size={22} />, desc: 'Synced ecosystem sync' }
-          ].map((s, idx) => (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: idx * 0.1 }}
-              key={s.label}
-              className="glass"
-              style={{
-                padding: '1.8rem 1.5rem',
-                borderRadius: '16px',
-                border: '1px solid var(--border)',
-                background: 'var(--bg-card)',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                textAlign: 'center',
-                gap: '0.4rem',
-                boxShadow: '0 10px 30px rgba(0,0,0,0.3)',
-                transition: 'all 0.3s ease',
-                cursor: 'default'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-6px)';
-                e.currentTarget.style.borderColor = 'var(--border-hover)';
-                e.currentTarget.style.boxShadow = '0 15px 35px rgba(0,0,0,0.4), 0 0 15px rgba(34, 197, 94, 0.1)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'none';
-                e.currentTarget.style.borderColor = 'var(--border)';
-                e.currentTarget.style.boxShadow = '0 10px 30px rgba(0,0,0,0.3)';
-              }}
-            >
-              <div style={{ 
-                color: 'var(--primary)', 
-                background: 'rgba(34, 197, 94, 0.08)', 
-                padding: '0.6rem', 
-                borderRadius: '12px', 
-                border: '1px solid rgba(34, 197, 94, 0.15)',
-                marginBottom: '0.3rem' 
-              }}>
-                {s.icon}
-              </div>
-              <div style={{ fontSize: '1.8rem', fontWeight: 850, color: 'var(--text-primary)', letterSpacing: '-0.5px' }}>{s.num}</div>
-              <div style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--primary)', letterSpacing: '0.3px' }}>{s.label}</div>
-              <div style={{ fontSize: '0.72rem', color: 'var(--text-secondary)' }}>{s.desc}</div>
-            </motion.div>
+            { num: '900K+', label: 'Active Naturalists' },
+            { num: '50M+', label: 'Logged Observations' },
+            { num: '150K+', label: 'Species Cataloged' },
+            { num: 'iNaturalist', label: 'Live Data Source' },
+          ].map((s) => (
+            <div className="mono-stat" key={s.label}>
+              <span className="mono-stat-num">{s.num}</span>
+              <span className="mono-stat-label">{s.label}</span>
+            </div>
           ))}
         </div>
       </section>
 
-      {/* Animal of the Week - Magazine Style */}
-      <section className="section" style={{ padding: '4rem 2rem' }}>
-        <div style={{ 
-          borderLeft: '4px solid var(--primary)', 
-          paddingLeft: '1.25rem',
-          display: 'flex', 
-          justifyContent: 'space-between', 
-          alignItems: 'flex-end', 
-          flexWrap: 'wrap', 
-          gap: '1rem', 
-          marginBottom: '2.5rem' 
-        }}>
+      {/* ── Animal of the Week ── */}
+      <section style={{ maxWidth: 1100, margin: '0 auto', padding: '3rem 1.25rem' }}>
+        <div style={sectionHeaderStyle}>
           <div>
-            <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.5rem' }}>
-              <span style={{ 
-                background: 'rgba(245,158,11,0.08)', 
-                color: '#fbbf24', 
-                border: '1px solid rgba(245,158,11,0.25)', 
-                borderRadius: '40px', 
-                padding: '0.3rem 0.85rem', 
-                fontSize: '0.72rem', 
-                fontWeight: 700,
-                letterSpacing: '0.5px',
-                textTransform: 'uppercase'
-              }}>
-                ⭐ Weekly Species Spotlight
-              </span>
-            </div>
-            <h2 className="section-title" style={{ fontSize: '2rem', marginBottom: 0, fontFamily: 'var(--font-display)', letterSpacing: '-1px' }}>
+            <span className="mono-eyebrow" style={{ marginBottom: '0.6rem', display: 'inline-flex' }}>Weekly Species Spotlight</span>
+            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.6rem, 3.5vw, 2.1rem)', fontWeight: 700, letterSpacing: '-0.5px', margin: 0 }}>
               Animal of the Week
             </h2>
           </div>
-          {aotWObs !== null && (
-            <div style={{ textAlign: 'right' }}>
-              <div style={{ fontSize: '1.6rem', fontWeight: 850, color: 'var(--primary)', letterSpacing: '-0.5px' }}>
-                {aotWObs.toLocaleString()}
-              </div>
-              <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                Total Wildlife Sightings
-              </div>
-            </div>
-          )}
+          <div style={{ textAlign: 'right' }}>
+            {aotWObs !== null && (
+              <>
+                <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.4rem', fontWeight: 700, color: 'var(--primary)', letterSpacing: '-0.5px' }}>
+                  {aotWObs.toLocaleString()}
+                </div>
+                <div className="mono-label" style={{ color: 'var(--text-secondary)', fontSize: '0.62rem' }}>Total Sightings</div>
+              </>
+            )}
+          </div>
         </div>
+        <div className="mono-rule" style={{ marginBottom: '2rem' }} />
 
         {loadingFeatured ? (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem' }}>
-            <div className="skeleton" style={{ height: 320, borderRadius: 20 }} />
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
+            <div className="skeleton" style={{ height: 280, borderRadius: 10 }} />
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', justifyContent: 'center' }}>
-              <div className="skeleton" style={{ height: 28, width: '40%' }} />
-              <div className="skeleton" style={{ height: 16, width: '90%' }} />
-              <div className="skeleton" style={{ height: 16, width: '80%' }} />
-              <div className="skeleton" style={{ height: 16, width: '70%' }} />
+              <div className="skeleton" style={{ height: 26, width: '40%' }} />
+              <div className="skeleton" style={{ height: 15, width: '90%' }} />
+              <div className="skeleton" style={{ height: 15, width: '80%' }} />
+              <div className="skeleton" style={{ height: 15, width: '70%' }} />
             </div>
           </div>
         ) : featured ? (
-          <div className="glass" style={{ 
-            padding: '2.5rem', 
-            borderRadius: '24px', 
-            display: 'flex', 
-            gap: '2.5rem', 
-            flexWrap: 'wrap', 
-            alignItems: 'center', 
-            border: '1px solid rgba(34, 197, 94, 0.15)',
-            boxShadow: '0 20px 50px rgba(0, 0, 0, 0.5)'
-          }}>
-            <div style={{ 
-              position: 'relative', 
-              overflow: 'hidden', 
-              borderRadius: '16px', 
-              width: '100%', 
-              maxWidth: '420px', 
-              height: '280px',
-              boxShadow: '0 15px 35px rgba(0,0,0,0.4)',
-              border: '1px solid rgba(255,255,255,0.06)'
-            }}>
+          <div className="mono-panel" style={{ display: 'flex', gap: 0, flexWrap: 'wrap', overflow: 'hidden', padding: 0 }}>
+            <div style={{ position: 'relative', overflow: 'hidden', width: '100%', maxWidth: '420px', height: '300px', flexShrink: 0 }}>
               <img
                 src={featured.images[0]}
                 alt={featured.name}
-                style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.6s ease' }}
-                onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.05)'}
-                onMouseLeave={e => e.currentTarget.style.transform = 'none'}
-                onError={(e) => { (e.target as HTMLImageElement).src = `https://placehold.co/420x300/101712/22c55e?text=${encodeURIComponent(featured.name)}`; }}
+                style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s ease' }}
+                onError={(e) => { (e.target as HTMLImageElement).src = `https://placehold.co/420x300/050806/22c55e?text=${encodeURIComponent(featured.name)}`; }}
               />
               <div style={{ position: 'absolute', top: 14, left: 14 }}>
                 <StatusPill status={featured.conservationStatus} />
               </div>
             </div>
 
-            <div style={{ flex: '1 1 350px' }}>
-              <h3 style={{ fontSize: '2.2rem', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.5px', fontFamily: 'var(--font-display)' }}>
+            <div style={{ flex: '1 1 320px', padding: '2.2rem 2.4rem', display: 'flex', flexDirection: 'column' }}>
+              <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.9rem', fontWeight: 700, color: 'var(--text-primary)', letterSpacing: '-0.5px', margin: 0 }}>
                 {featured.name}
               </h3>
-              <p style={{ fontStyle: 'italic', color: 'var(--primary)', fontSize: '0.95rem', fontWeight: 600, marginBottom: '1.25rem' }}>
+              <p style={{ fontStyle: 'italic', color: 'var(--primary)', fontSize: '0.9rem', fontWeight: 500, marginBottom: '1.2rem', marginTop: '0.2rem' }}>
                 {featured.scientificName}
               </p>
 
-              <p style={{ fontSize: '0.95rem', lineHeight: 1.7, color: 'var(--text-secondary)', marginBottom: '1.5rem', fontWeight: 300 }}>
+              <p style={{ fontSize: '0.92rem', lineHeight: 1.65, color: 'var(--text-secondary)', marginBottom: '1.4rem', fontWeight: 400 }}>
                 {rewriteDescription(featured.description, featured.name, featured.scientificName, featured.category)}
               </p>
 
-              <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap', marginBottom: '1.5rem' }}>
-                <span style={{ 
-                  background: 'rgba(168,85,247,0.08)', 
-                  color: '#c084fc', 
-                  border: '1px solid rgba(168,85,247,0.25)', 
-                  padding: '0.35rem 0.9rem', 
-                  borderRadius: '40px', 
-                  fontSize: '0.78rem', 
-                  fontWeight: 700,
-                  letterSpacing: '0.3px',
-                  textTransform: 'uppercase'
-                }}>
-                  🧬 {featured.category}
+              <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '1.4rem' }}>
+                <span className="mono-label" style={{ background: 'rgba(168,85,247,0.06)', color: '#c084fc', border: '1px solid rgba(168,85,247,0.22)', padding: '0.3rem 0.75rem', borderRadius: '5px', fontSize: '0.64rem' }}>
+                  {featured.category}
                 </span>
                 {featured.wikipediaUrl && (
-                  <a href={featured.wikipediaUrl} target="_blank" rel="noopener noreferrer"
-                    style={{ 
-                      background: 'rgba(34, 197, 94, 0.05)', 
-                      color: 'var(--primary)', 
-                      border: '1px solid var(--border)', 
-                      padding: '0.35rem 0.9rem', 
-                      borderRadius: '40px', 
-                      fontSize: '0.78rem', 
-                      fontWeight: 700, 
-                      textDecoration: 'none', 
-                      display: 'inline-flex', 
-                      alignItems: 'center', 
-                      gap: '0.35rem',
-                      letterSpacing: '0.3px',
-                      textTransform: 'uppercase',
-                      transition: 'all 0.2s ease'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.borderColor = 'var(--primary)';
-                      e.currentTarget.style.background = 'var(--primary-glow)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.borderColor = 'var(--border)';
-                      e.currentTarget.style.background = 'rgba(34, 197, 94, 0.05)';
-                    }}
+                  <a href={featured.wikipediaUrl} target="_blank" rel="noopener noreferrer" className="mono-label" style={{
+                    background: 'rgba(34,197,94,0.04)', color: 'var(--primary)', border: '1px solid var(--border)',
+                    padding: '0.3rem 0.75rem', borderRadius: '5px', fontSize: '0.64rem', textDecoration: 'none',
+                    display: 'inline-flex', alignItems: 'center', gap: '0.35rem', transition: 'border-color 0.2s',
+                  }}
+                    onMouseEnter={(e) => e.currentTarget.style.borderColor = 'var(--primary)'}
+                    onMouseLeave={(e) => e.currentTarget.style.borderColor = 'var(--border)'}
                   >
-                    Wikipedia <ArrowRight size={12} />
+                    Wikipedia <ArrowRight size={11} />
                   </a>
                 )}
               </div>
 
-              {/* Sighting markers */}
               {sightings.length > 0 && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                  <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '0.1rem' }}>
-                    📍 Live iNaturalist Sightings:
-                  </div>
+                  <div className="mono-label" style={{ color: 'var(--text-secondary)', fontSize: '0.6rem' }}>Live iNaturalist Sightings</div>
                   <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
                     {sightings.slice(0, 3).map((s) => (
-                      <a 
-                        key={s.id} 
-                        href={s.uri} 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
-                        style={{ 
-                          display: 'inline-flex', 
-                          alignItems: 'center', 
-                          gap: '0.4rem', 
-                          padding: '0.4rem 0.8rem', 
-                          border: '1px solid var(--border)', 
-                          background: 'rgba(34, 197, 94, 0.03)', 
-                          borderRadius: '8px', 
-                          fontSize: '0.8rem', 
-                          color: 'var(--text-primary)', 
-                          textDecoration: 'none',
-                          transition: 'all 0.2s ease' 
-                        }}
+                      <a key={s.id} href={s.uri} target="_blank" rel="noopener noreferrer" style={{
+                        display: 'inline-flex', alignItems: 'center', gap: '0.4rem', padding: '0.38rem 0.75rem',
+                        border: '1px solid var(--border)', background: 'rgba(34,197,94,0.03)', borderRadius: '5px',
+                        fontSize: '0.78rem', color: 'var(--text-primary)', textDecoration: 'none', transition: 'border-color 0.2s',
+                      }}
                         onMouseEnter={(e) => e.currentTarget.style.borderColor = 'var(--primary)'}
                         onMouseLeave={(e) => e.currentTarget.style.borderColor = 'var(--border)'}
                       >
@@ -640,156 +412,79 @@ export default function Home() {
         ) : null}
       </section>
 
-      {/* Did You Know? - Interactive Facts Carousel Card */}
-      <section style={{ padding: '0 2rem 3rem', maxWidth: 1100, margin: '0 auto' }}>
-        <div 
-          className="glass"
+      {/* ── Did You Know? Facts ── */}
+      <section style={{ maxWidth: 1100, margin: '0 auto', padding: '0 1.25rem 3rem' }}>
+        <div
+          className="mono-panel"
           onMouseEnter={() => setIsFactPaused(true)}
           onMouseLeave={() => setIsFactPaused(false)}
-          style={{ 
-            border: '1px solid rgba(34, 197, 94, 0.15)', 
-            background: 'rgba(16, 22, 18, 0.55)', 
-            borderRadius: '20px', 
-            padding: '2.5rem 2rem', 
-            textAlign: 'center', 
-            position: 'relative',
-            boxShadow: '0 15px 40px rgba(0,0,0,0.4)',
-            overflow: 'hidden'
-          }}
+          style={{ padding: '1.8rem 2rem', position: 'relative', overflow: 'hidden' }}
         >
-          {/* Header indicator */}
-          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.4rem', marginBottom: '0.8rem' }}>
-            <span style={{ fontSize: '0.78rem', fontWeight: 700, letterSpacing: '1px', color: 'var(--primary)', textTransform: 'uppercase' }}>
-              🧠 WILDLIFE FACT ARCHIVE
-            </span>
+          <div style={{ marginBottom: '0.7rem' }}>
+            <span className="mono-eyebrow">Wildlife Fact Archive</span>
           </div>
 
-          {/* Active Fact Display with Slide Animation */}
-          <div style={{ minHeight: '4.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0.5rem 0 1rem' }}>
+          <div style={{ minHeight: '3.2rem', display: 'flex', alignItems: 'center', margin: '0.4rem 0 0.9rem' }}>
             <AnimatePresence mode="wait">
               <motion.p
                 key={factIndex}
-                initial={{ opacity: 0, x: 20 }}
+                initial={{ opacity: 0, x: 16 }}
                 animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
+                exit={{ opacity: 0, x: -16 }}
                 transition={{ duration: 0.3 }}
-                style={{ 
-                  fontSize: '1.2rem', 
-                  color: '#fff', 
-                  lineHeight: 1.6, 
-                  maxWidth: '700px', 
-                  fontWeight: 300,
-                  fontStyle: 'italic'
-                }}
+                style={{ fontSize: '1.08rem', color: '#fff', lineHeight: 1.6, maxWidth: '680px', fontWeight: 400 }}
               >
-                &ldquo;{FACTS[factIndex]}&rdquo;
+                {FACTS[factIndex]}
               </motion.p>
             </AnimatePresence>
           </div>
 
-          {/* Controls: Prev / Play-Pause indicator / Next */}
-          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1.25rem', marginTop: '0.5rem' }}>
-            <button 
+          <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', gap: '1.1rem' }}>
+            <button
               onClick={handlePrevFact}
-              style={{
-                background: 'rgba(255,255,255,0.03)',
-                border: '1px solid rgba(255,255,255,0.08)',
-                color: '#fff',
-                width: '32px',
-                height: '32px',
-                borderRadius: '50%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                cursor: 'pointer',
-                transition: 'all 0.2s'
-              }}
+              style={{ background: 'transparent', border: '1px solid var(--border)', color: 'var(--text-primary)', width: '30px', height: '30px', borderRadius: '5px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}
               onMouseEnter={e => e.currentTarget.style.borderColor = 'var(--primary)'}
-              onMouseLeave={e => e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'}
+              onMouseLeave={e => e.currentTarget.style.borderColor = 'var(--border)'}
             >
-              <ChevronLeft size={16} />
+              <ChevronLeft size={15} />
             </button>
-            
-            <span style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.4)', fontWeight: 600 }}>
-              {factIndex + 1} / {FACTS.length} {isFactPaused && '(Paused)'}
+            <span className="mono-label" style={{ fontSize: '0.62rem', color: 'var(--text-muted)' }}>
+              {factIndex + 1} / {FACTS.length}{isFactPaused ? ' · Paused' : ''}
             </span>
-
-            <button 
+            <button
               onClick={handleNextFact}
-              style={{
-                background: 'rgba(255,255,255,0.03)',
-                border: '1px solid rgba(255,255,255,0.08)',
-                color: '#fff',
-                width: '32px',
-                height: '32px',
-                borderRadius: '50%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                cursor: 'pointer',
-                transition: 'all 0.2s'
-              }}
+              style={{ background: 'transparent', border: '1px solid var(--border)', color: 'var(--text-primary)', width: '30px', height: '30px', borderRadius: '5px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}
               onMouseEnter={e => e.currentTarget.style.borderColor = 'var(--primary)'}
-              onMouseLeave={e => e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'}
+              onMouseLeave={e => e.currentTarget.style.borderColor = 'var(--border)'}
             >
-              <ChevronRight size={16} />
+              <ChevronRight size={15} />
             </button>
           </div>
 
-          {/* Bottom Timer Progress Line */}
-          <div style={{
-            position: 'absolute',
-            bottom: 0,
-            left: 0,
-            width: '100%',
-            height: '3px',
-            background: 'rgba(255,255,255,0.05)'
-          }}>
-            <div style={{
-              height: '100%',
-              width: `${factProgress}%`,
-              background: 'linear-gradient(90deg, var(--primary) 0%, #4ade80 100%)',
-              transition: 'width 0.1s linear',
-              boxShadow: '0 0 8px var(--primary)'
-            }} />
+          <div style={{ position: 'absolute', bottom: 0, left: 0, width: '100%', height: '2px', background: 'rgba(255,255,255,0.05)' }}>
+            <div style={{ height: '100%', width: `${factProgress}%`, background: 'var(--primary)', transition: 'width 0.1s linear' }} />
           </div>
         </div>
       </section>
 
-      {/* Red List Highlights with Left-bar Headers */}
-      <section className="section" style={{ padding: '3rem 2rem' }}>
-        <div style={{ 
-          borderLeft: '4px solid var(--primary)',
-          paddingLeft: '1.25rem',
-          display: 'flex', 
-          justifyContent: 'space-between', 
-          alignItems: 'flex-end', 
-          marginBottom: '2rem' 
-        }}>
+      {/* ── Red List Highlights ── */}
+      <section style={{ maxWidth: 1280, margin: '0 auto', padding: '3rem 1.25rem' }}>
+        <div style={sectionHeaderStyle}>
           <div>
-            <h2 className="section-title" style={{ fontSize: '2rem', marginBottom: 0, fontFamily: 'var(--font-display)', letterSpacing: '-1px' }}>
+            <span className="mono-eyebrow" style={{ marginBottom: '0.6rem', display: 'inline-flex' }}>Endangered Species</span>
+            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.6rem, 3.5vw, 2.1rem)', fontWeight: 700, letterSpacing: '-0.5px', margin: 0 }}>
               Red List Highlights
             </h2>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', fontWeight: 500 }}>
-              Endangered wildlife monitored under iNaturalist APIs
-            </p>
           </div>
-          <Link href="/red-list" style={{ 
-            fontSize: '0.85rem', 
-            color: 'var(--primary)', 
-            fontWeight: 700, 
-            textDecoration: 'none',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.2rem'
-          }}>
-            View Full Archive <ChevronRight size={16} />
+          <Link href="/red-list" className="mono-label" style={{ fontSize: '0.7rem', color: 'var(--primary)', display: 'inline-flex', alignItems: 'center', gap: '0.3rem', textDecoration: 'none' }}>
+            View Full Archive <ChevronRight size={15} />
           </Link>
         </div>
+        <div className="mono-rule" style={{ marginBottom: '2rem' }} />
 
         {loadingRed ? (
           <div className="grid">
-            {[1, 2, 3].map((i) => <div key={i} className="skeleton" style={{ minHeight: 300, borderRadius: 16 }} />)}
+            {[1, 2, 3].map((i) => <div key={i} className="skeleton" style={{ minHeight: 300, borderRadius: 10 }} />)}
           </div>
         ) : (
           <div className="grid">
@@ -798,24 +493,21 @@ export default function Home() {
         )}
       </section>
 
-      {/* Threatened Spotlight */}
-      <section className="section" style={{ padding: '3rem 2rem 5rem' }}>
-        <div style={{ 
-          borderLeft: '4px solid var(--accent)',
-          paddingLeft: '1.25rem',
-          marginBottom: '2rem' 
-        }}>
-          <h2 className="section-title" style={{ fontSize: '2rem', marginBottom: 0, fontFamily: 'var(--font-display)', letterSpacing: '-1px' }}>
-            Conservation Spotlight
-          </h2>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', fontWeight: 500 }}>
-            Recent species requiring habitat protection and census updates
-          </p>
+      {/* ── Conservation Spotlight ── */}
+      <section style={{ maxWidth: 1280, margin: '0 auto', padding: '3rem 1.25rem 5rem' }}>
+        <div style={sectionHeaderStyle}>
+          <div>
+            <span className="mono-eyebrow" style={{ marginBottom: '0.6rem', display: 'inline-flex', color: 'var(--accent)' }}>Habitat Protection</span>
+            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.6rem, 3.5vw, 2.1rem)', fontWeight: 700, letterSpacing: '-0.5px', margin: 0 }}>
+              Conservation Spotlight
+            </h2>
+          </div>
         </div>
+        <div className="mono-rule" style={{ marginBottom: '2rem' }} />
 
         {loadingSpotlight ? (
           <div className="grid">
-            {[1, 2, 3].map((i) => <div key={i} className="skeleton" style={{ minHeight: 300, borderRadius: 16 }} />)}
+            {[1, 2, 3].map((i) => <div key={i} className="skeleton" style={{ minHeight: 300, borderRadius: 10 }} />)}
           </div>
         ) : (
           <div className="grid">

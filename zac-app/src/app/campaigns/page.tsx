@@ -123,25 +123,14 @@ export default function CampaignsPage() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5 }}
-            style={{
-              display: 'inline-flex',
-              padding: '0.4rem 1.1rem',
-              borderRadius: '40px',
-              background: 'rgba(245, 158, 11, 0.08)',
-              border: '1px solid rgba(245, 158, 11, 0.25)',
-              marginBottom: '1.25rem',
-              color: 'var(--accent)',
-              fontSize: '0.82rem',
-              fontWeight: 700,
-              letterSpacing: '1px',
-              textTransform: 'uppercase'
-            }}
+            className="mono-eyebrow"
+            style={{ color: 'var(--accent)', marginBottom: '1.25rem' }}
           >
-            🛡️ CONSERVATION CAMPAIGNS
+            Conservation Campaigns
           </motion.div>
-          <h1 className="section-title" style={{ fontSize: 'clamp(2rem, 5vw, 3rem)' }}>Act Now: Shield Fragile Habitats</h1>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '1.1rem', maxWidth: '650px', margin: '0 auto', lineHeight: 1.65 }}>
-            Help us protect wild spaces. Sign a support pledge below to validate field actions, present habitat status data to legislators, and enforce biological sanctuaries.
+          <h1 className="section-title" style={{ fontSize: 'clamp(2rem, 5vw, 3rem)' }}>Protect Fragile Habitats</h1>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '1.05rem', maxWidth: '620px', margin: '0 auto', lineHeight: 1.65 }}>
+            Sign a pledge to back field actions, bring habitat data to legislators, and support biological sanctuaries.
           </p>
         </div>
 
@@ -181,21 +170,22 @@ export default function CampaignsPage() {
                 {/* Content */}
                 <div style={{ flex: '1 1 350px' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '0.4rem' }}>
-                    <span style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                      🏷️ {c.category}
+                    <span className="mono-label" style={{ fontSize: '0.68rem', color: 'var(--primary)' }}>
+                      {c.category}
                     </span>
-                    <span style={{ 
-                      fontSize: '0.7rem', 
-                      fontWeight: 700, 
-                      color: getThreatColor(c.threatLevel), 
+                    <span style={{
+                      fontSize: '0.66rem',
+                      fontWeight: 700,
+                      fontFamily: 'var(--font-display)',
+                      color: getThreatColor(c.threatLevel),
                       background: `${getThreatColor(c.threatLevel)}15`,
                       border: `1px solid ${getThreatColor(c.threatLevel)}30`,
-                      padding: '0.2rem 0.65rem',
-                      borderRadius: '40px',
+                      padding: '0.2rem 0.6rem',
+                      borderRadius: '5px',
                       textTransform: 'uppercase',
-                      letterSpacing: '0.3px'
+                      letterSpacing: '0.6px'
                     }}>
-                      ⚠️ {c.threatLevel} Threat
+                      {c.threatLevel} Threat
                     </span>
                   </div>
 

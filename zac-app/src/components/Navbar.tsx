@@ -3,15 +3,15 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { 
-  Menu, X, ShieldAlert, User, LogIn, LogOut, ChevronDown,
-  LayoutDashboard, Database, RefreshCw, ChevronLeft, ChevronRight, Home, Globe, Sun, Moon, Sparkles, MessageSquare, BookOpen
+import {
+  Menu, X, ShieldAlert, User, LogIn, LogOut,
+  LayoutDashboard, Database, RefreshCw, ChevronLeft, ChevronRight, Globe, Sun, Moon, BookOpen, MessageSquare, Compass
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const PUBLIC_LINKS = [
   { href: '/about',     label: 'About',     icon: Globe },
-  { href: '/campaigns', label: 'Campaigns', icon: Sparkles },
+  { href: '/campaigns', label: 'Campaigns', icon: Compass },
   { href: '/blog',      label: 'Blog',      icon: BookOpen },
   { href: '/contact',   label: 'Contact',   icon: MessageSquare },
 ];
@@ -138,9 +138,9 @@ export default function Navbar({
         {/* Brand logo container */}
         <Link href="/" className="nav-brand" style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
           <div className="nav-logo-wrapper" style={{ display: 'flex', alignItems: 'center' }}>
-            <span className="nav-brand-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>🌿</span>
+            <span className="nav-brand-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Z</span>
           </div>
-          <span style={{ fontWeight: 800, fontSize: '1.25rem', fontFamily: 'var(--font-display)', letterSpacing: '-0.5px' }}>
+          <span style={{ fontWeight: 700, fontSize: '1.1rem', fontFamily: 'var(--font-display)', letterSpacing: '-0.3px', textTransform: 'uppercase' }}>
             {isMobile ? 'ZAC' : 'Zoology Animal Club'}
           </span>
         </Link>
@@ -480,8 +480,8 @@ export default function Navbar({
           zIndex: 999,
         }}>
           <Link href="/dashboard" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <span style={{ fontSize: '1.25rem' }}>🌿</span>
-            <span style={{ fontWeight: 800, fontSize: '1.1rem', fontFamily: 'var(--font-display)', color: 'var(--primary)', letterSpacing: '-0.5px' }}>ZAC Portal</span>
+            <span className="nav-brand-icon" style={{ width: '26px', height: '26px', fontSize: '0.85rem', borderRadius: '7px' }}>Z</span>
+            <span style={{ fontWeight: 700, fontSize: '1rem', fontFamily: 'var(--font-display)', color: 'var(--primary)', letterSpacing: '-0.3px', textTransform: 'uppercase' }}>ZAC Portal</span>
           </Link>
           <button
             onClick={() => setIsOpen(!isOpen)}
@@ -556,15 +556,16 @@ export default function Navbar({
                   height: '40px',
                 }}>
                   <Link href="/dashboard" style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', textDecoration: 'none' }}>
-                    <span style={{ fontSize: '1.5rem', display: 'block' }}>🌿</span>
+                    <span className="nav-brand-icon" style={{ width: '28px', height: '28px', fontSize: '0.95rem', borderRadius: '8px' }}>Z</span>
                     {(!isCollapsed || isMobile) && (
                       <span style={{
-                        fontWeight: 800,
-                        fontSize: '1.05rem',
+                        fontWeight: 700,
+                        fontSize: '1rem',
                         fontFamily: 'var(--font-display)',
                         color: '#fff',
                         whiteSpace: 'nowrap',
-                        letterSpacing: '-0.5px'
+                        letterSpacing: '-0.3px',
+                        textTransform: 'uppercase'
                       }}>
                         Zoology Animal Club
                       </span>

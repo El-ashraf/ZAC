@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Syne:wght@700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
 /* ── Design Tokens ── */
 :root {
@@ -28,15 +28,15 @@
   --text-muted: #4ade80;
 
   --font-body: 'Inter', sans-serif;
-  --font-display: 'Syne', sans-serif;
+  --font-display: 'Space Grotesk', 'Inter', sans-serif;
 
-  --bg-overlay: rgba(8, 12, 10, 0.82);
-  --bg-gradient: radial-gradient(circle at 50% 30%, rgba(10, 15, 11, 0.78) 0%, rgba(8, 12, 10, 0.95) 100%);
+  --bg-overlay: rgba(5, 8, 6, 0.86);
+  --bg-gradient: radial-gradient(circle at 50% 28%, rgba(8, 12, 9, 0.82) 0%, rgba(5, 8, 6, 0.96) 100%);
 
-  --radius-sm: 8px;
-  --radius-md: 14px;
-  --radius-lg: 20px;
-  --radius-xl: 28px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
 
   --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0,0,0,0.3);
   --shadow-glow: 0 0 32px var(--primary-glow);
@@ -516,6 +516,111 @@ img { display: block; }
   margin: 0;
 }
 
+/* ── Sleek Mono utilities ── */
+.mono-label {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+}
+.mono-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+.mono-rule {
+  height: 1px;
+  background: var(--border);
+  width: 100%;
+}
+.mono-panel {
+  background: rgba(8, 12, 9, 0.66);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+.mono-stat-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: rgba(8, 12, 9, 0.55);
+  backdrop-filter: blur(12px);
+}
+.mono-stat {
+  padding: 1.6rem 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  border-right: 1px solid var(--border);
+}
+.mono-stat:last-child { border-right: none; }
+.mono-stat-num {
+  font-family: var(--font-display);
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.5px;
+  line-height: 1;
+}
+.mono-stat-label {
+  font-family: var(--font-display);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+.btn-mono {
+  background: var(--primary);
+  color: #050806;
+  border-radius: var(--radius-sm);
+  border: none;
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  box-shadow: 0 0 0 transparent;
+  text-decoration: none;
+}
+.btn-mono:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(34, 197, 94, 0.18);
+}
+.btn-mono-outline {
+  background: transparent;
+  color: var(--primary);
+  border: 1px solid var(--primary);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  transition: background 0.18s ease, border-color 0.18s ease;
+  text-decoration: none;
+}
+.btn-mono-outline:hover {
+  background: rgba(34, 197, 94, 0.08);
+}
+
 /* ── Page Hero (inner pages) ── */
 .page-hero {
   position: relative;
@@ -644,6 +749,9 @@ img { display: block; }
 
 /* ── Responsive ── */
 @media (max-width: 768px) {
+  .mono-stat-strip { grid-template-columns: 1fr 1fr; }
+  .mono-stat:nth-child(2) { border-right: none; }
+  .mono-stat:nth-child(1), .mono-stat:nth-child(2) { border-bottom: 1px solid var(--border); }
   .navbar {
     padding: 0 1.25rem;
     height: auto;

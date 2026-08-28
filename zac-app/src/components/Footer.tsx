@@ -6,12 +6,12 @@ export default function Footer() {
     <footer className="footer">
       <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 2rem' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem', marginBottom: '1.5rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '1.1rem', fontWeight: 700, color: 'var(--primary)' }}>
-            🌿 ZAC
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontFamily: 'var(--font-display)', fontWeight: 700, letterSpacing: '0.4px', textTransform: 'uppercase', color: 'var(--primary)', fontSize: '0.95rem' }}>
+            ZAC
           </div>
           <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
             {[['/', 'Home'], ['/animals', 'Database'], ['/red-list', 'Red List'], ['/deep-sea', 'Deep Sea'], ['/extinct', 'Extinct']].map(([href, label]) => (
-              <Link key={href} href={href} style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', transition: 'color 0.2s' }}
+              <Link key={href} href={href} style={{ color: 'var(--text-secondary)', fontSize: '0.78rem', fontFamily: 'var(--font-display)', letterSpacing: '0.8px', textTransform: 'uppercase', transition: 'color 0.2s' }}
                 onMouseEnter={e => (e.currentTarget.style.color = 'var(--primary)')}
                 onMouseLeave={e => (e.currentTarget.style.color = '')}>
                 {label}
@@ -19,7 +19,7 @@ export default function Footer() {
             ))}
           </div>
         </div>
-        <div style={{ borderTop: '1px solid var(--border)', paddingTop: '1.5rem', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.75rem', fontSize: '0.82rem' }}>
+        <div style={{ borderTop: '1px solid var(--border)', paddingTop: '1.25rem', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.75rem', fontSize: '0.78rem' }}>
           <p>© {new Date().getFullYear()} Zoology Animal Club · Protecting Wildlife, Preserving the Future</p>
           <p style={{ color: 'var(--text-muted)' }}>
             Data sourced live from{' '}
