@@ -89,23 +89,12 @@ export default function BlogPage() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5 }}
-            style={{
-              display: 'inline-flex',
-              padding: '0.4rem 1.1rem',
-              borderRadius: '40px',
-              background: 'rgba(34, 197, 94, 0.08)',
-              border: '1px solid rgba(34, 197, 94, 0.25)',
-              marginBottom: '1.25rem',
-              color: 'var(--primary)',
-              fontSize: '0.82rem',
-              fontWeight: 700,
-              letterSpacing: '1px',
-              textTransform: 'uppercase'
-            }}
+            className="mono-eyebrow"
+            style={{ marginBottom: '1.25rem' }}
           >
-            📚 FIELD LOGS & ARTICLES
+            Field Logs &amp; Articles
           </motion.div>
-          <h1 className="section-title" style={{ fontSize: 'clamp(2rem, 5vw, 3rem)' }}>ZAC Conservation Blog</h1>
+          <h1 className="section-title" style={{ fontSize: 'clamp(2rem, 5vw, 3rem)' }}>Conservation Blog</h1>
           <p style={{ color: 'var(--text-secondary)', fontSize: '1.1rem', maxWidth: '650px', margin: '0 auto', lineHeight: 1.65 }}>
             Read recent expeditions reports, deep-sea research findings, and community conservation logs straight from the field.
           </p>

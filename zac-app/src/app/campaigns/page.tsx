@@ -289,7 +289,7 @@ export default function CampaignsPage() {
                     <Check size={28} />
                   </div>
                   <h3 style={{ fontSize: '1.4rem', fontWeight: 800, color: '#fff', marginBottom: '0.4rem' }}>Pledge Registered!</h3>
-                  <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>Thank you for standing up for ZAC sanctuaries.</p>
+                  <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>Thank you for standing up for Zoology Animal Club sanctuaries.</p>
                 </div>
               ) : (
                 <form onSubmit={handlePledgeSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>

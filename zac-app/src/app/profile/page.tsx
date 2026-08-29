@@ -627,7 +627,7 @@ export default function Profile() {
                           onMouseEnter={e => (e.currentTarget.style.borderColor = 'var(--border-hover)')}
                           onMouseLeave={e => (e.currentTarget.style.borderColor = 'var(--border)')}
                         >
-                          <span>🌿 {obs.speciesName}</span>
+                          <span>{obs.speciesName}</span>
                           <span style={{ color: 'var(--text-muted)' }}>{obs.date} ↗</span>
                         </a>
                       ))}

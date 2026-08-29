@@ -138,10 +138,10 @@ export default function Navbar({
         {/* Brand logo container */}
         <Link href="/" className="nav-brand" style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
           <div className="nav-logo-wrapper" style={{ display: 'flex', alignItems: 'center' }}>
-            <span className="nav-brand-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Z</span>
+            <img src="/logo.png" alt="Zoology Animal Club" style={{ height: '36px', width: 'auto', objectFit: 'contain' }} />
           </div>
-          <span style={{ fontWeight: 700, fontSize: '1.1rem', fontFamily: 'var(--font-display)', letterSpacing: '-0.3px', textTransform: 'uppercase' }}>
-            {isMobile ? 'ZAC' : 'Zoology Animal Club'}
+          <span style={{ fontWeight: 700, fontSize: isMobile ? '0.85rem' : '1rem', fontFamily: 'var(--font-display)', letterSpacing: '-0.2px', textTransform: 'uppercase' }}>
+            {isMobile ? 'Zoology Animal Club' : 'Zoology Animal Club'}
           </span>
         </Link>
 
@@ -480,8 +480,8 @@ export default function Navbar({
           zIndex: 999,
         }}>
           <Link href="/dashboard" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <span className="nav-brand-icon" style={{ width: '26px', height: '26px', fontSize: '0.85rem', borderRadius: '7px' }}>Z</span>
-            <span style={{ fontWeight: 700, fontSize: '1rem', fontFamily: 'var(--font-display)', color: 'var(--primary)', letterSpacing: '-0.3px', textTransform: 'uppercase' }}>ZAC Portal</span>
+            <img src="/logo.png" alt="Zoology Animal Club" style={{ height: '28px', width: 'auto', objectFit: 'contain' }} />
+            <span style={{ fontWeight: 700, fontSize: '0.82rem', fontFamily: 'var(--font-display)', color: 'var(--primary)', letterSpacing: '-0.2px', textTransform: 'uppercase' }}>Zoology Animal Club</span>
           </Link>
           <button
             onClick={() => setIsOpen(!isOpen)}
@@ -555,17 +555,19 @@ export default function Navbar({
                   justifyContent: isCollapsed && !isMobile ? 'center' : 'space-between',
                   height: '40px',
                 }}>
-                  <Link href="/dashboard" style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', textDecoration: 'none' }}>
-                    <span className="nav-brand-icon" style={{ width: '28px', height: '28px', fontSize: '0.95rem', borderRadius: '8px' }}>Z</span>
+                  <Link href="/dashboard" style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', textDecoration: 'none', overflow: 'hidden' }}>
+                    <img src="/logo.png" alt="Zoology Animal Club" style={{ height: '28px', width: 'auto', objectFit: 'contain', flexShrink: 0 }} />
                     {(!isCollapsed || isMobile) && (
                       <span style={{
                         fontWeight: 700,
-                        fontSize: '1rem',
+                        fontSize: '0.82rem',
                         fontFamily: 'var(--font-display)',
                         color: '#fff',
                         whiteSpace: 'nowrap',
-                        letterSpacing: '-0.3px',
-                        textTransform: 'uppercase'
+                        letterSpacing: '-0.2px',
+                        textTransform: 'uppercase',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis'
                       }}>
                         Zoology Animal Club
                       </span>

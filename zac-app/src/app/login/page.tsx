@@ -656,7 +656,7 @@ function LoginContent() {
         }}
       >
         <div style={{ textAlign: 'center' }}>
-          <span style={{ fontSize: '2.2rem', display: 'block', marginBottom: '0.4rem' }}>🌿</span>
+          <img src="/logo.png" alt="Zoology Animal Club" style={{ height: '52px', width: 'auto', objectFit: 'contain', marginBottom: '0.5rem' }} />
           <h2 style={{
             fontFamily: 'var(--font-display)',
             fontSize: '1.7rem',

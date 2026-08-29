@@ -458,7 +458,7 @@ export default function INaturalistHub() {
         </motion.div>
         <h1 className="section-title">🌿 iNaturalist Hub</h1>
         <p style={{ color: 'var(--text-secondary)', maxWidth: '600px', margin: '0 auto', fontSize: '1.05rem' }}>
-          Connect your project, plan field studies, and upload animal observations directly from ZAC to the global iNaturalist platform.
+          Connect your project, plan field studies, and upload animal observations directly from Zoology Animal Club to the global iNaturalist platform.
         </p>
       </div>
 
@@ -506,7 +506,7 @@ export default function INaturalistHub() {
                 🔑 Authenticate API Access
               </h2>
               <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '1.5rem' }}>
-                iNaturalist write access requires a Personal API JWT Token. ZAC stores this token locally on your computer. It never gets stored permanently on our server.
+                iNaturalist write access requires a Personal API JWT Token. Zoology Animal Club stores this token locally in your browser. It is never stored permanently on our server.
               </p>
 
               <form onSubmit={handleSaveSettings}>

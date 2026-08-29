@@ -71,7 +71,7 @@ export default function BlogPostDetail({ params }: { params: Promise<{ slug: str
             }}
           >
             <ArrowLeft size={16} />
-            Back to ZAC Blog
+            Back to Blog
           </Link>
         </div>
 
@@ -85,7 +85,7 @@ export default function BlogPostDetail({ params }: { params: Promise<{ slug: str
           <div className="glass" style={{ padding: '4rem', textAlign: 'center', border: '1px solid rgba(239,68,68,0.2)' }}>
             <h2 style={{ color: '#f87171', fontWeight: 800, marginBottom: '1rem' }}>Log File Not Found</h2>
             <p style={{ color: 'var(--text-secondary)', marginBottom: '2rem' }}>
-              The requested conservation report slug does not correspond to a registered ZAC database log.
+              The requested conservation report slug does not correspond to a registered database log.
             </p>
             <Link href="/blog" className="btn" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}>
               Return to Blog <ArrowRight size={14} />
@@ -106,11 +106,11 @@ export default function BlogPostDetail({ params }: { params: Promise<{ slug: str
           >
             {/* Meta */}
             <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', fontSize: '0.8rem', color: 'var(--primary)', fontWeight: 600, marginBottom: '1rem' }}>
-              <span style={{ textTransform: 'uppercase', letterSpacing: '0.5px' }}>🧬 {post.category}</span>
+              <span style={{ textTransform: 'uppercase', letterSpacing: '0.5px' }}>{post.category}</span>
               <span>•</span>
-              <span>🗓️ {new Date(post.createdAt || 0).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
+              <span>{new Date(post.createdAt || 0).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
               <span>•</span>
-              <span>⏱️ {post.readTime}</span>
+              <span>{post.readTime}</span>
             </div>
 
             <h1 style={{ 
@@ -127,7 +127,7 @@ export default function BlogPostDetail({ params }: { params: Promise<{ slug: str
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', fontSize: '0.9rem', color: 'var(--text-secondary)', marginBottom: '2.5rem' }}>
               <User size={14} />
-              <span>By <strong>{post.author}</strong> — ZAC Field Correspondent</span>
+              <span>By <strong>{post.author}</strong> — Zoology Animal Club Field Correspondent</span>
             </div>
 
             {/* Main Cover Image */}

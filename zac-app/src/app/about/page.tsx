@@ -33,11 +33,11 @@ export default function AboutPage() {
             className="mono-eyebrow"
             style={{ marginBottom: '1.25rem' }}
           >
-            About ZAC
+            About Zoology Animal Club
           </motion.div>
           <h1 className="section-title" style={{ fontSize: 'clamp(2rem, 5vw, 3rem)' }}>Protecting Wildlife Through Technology</h1>
           <p style={{ color: 'var(--text-secondary)', fontSize: '1.05rem', maxWidth: '620px', margin: '0 auto', lineHeight: 1.65 }}>
-            ZAC connects conservationists, zoologists, and nature enthusiasts to catalog biodiversity in real time, using live data from iNaturalist and the IUCN Red List.
+            Zoology Animal Club connects conservationists, zoologists, and nature enthusiasts to catalog biodiversity in real time, using live data from iNaturalist and the IUCN Red List.
           </p>
         </div>
 
@@ -53,7 +53,7 @@ export default function AboutPage() {
             Our Mission & Impact
           </h2>
           <p style={{ color: 'var(--text-primary)', lineHeight: 1.8, fontSize: '0.98rem', fontWeight: 300, marginBottom: '2rem' }}>
-            You cannot protect what you do not understand. ZAC gives researchers and citizen scientists tools to log sightings, monitor migration paths, and track conservation threats.
+            You cannot protect what you do not understand. Zoology Animal Club gives researchers and citizen scientists tools to log sightings, monitor migration paths, and track conservation threats.
           </p>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '2rem', marginTop: '1rem' }}>
