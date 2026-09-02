@@ -218,7 +218,7 @@ export default function Home() {
       style={{ position: 'relative', overflowX: 'hidden', ['--font-display' as string]: "'Space Grotesk', 'Inter', sans-serif" }}
     >
       {/* Background Image & Overlay */}
-      <div style={{
+      <div className="bg-image-layer" style={{
         position: 'fixed',
         inset: 0,
         zIndex: -1,

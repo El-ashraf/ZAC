@@ -801,3 +801,13 @@ img { display: block; }
 .sidebar-link.active:hover {
   background: rgba(34, 197, 94, 0.12) !important;
 }
+
+/* ── Background Image Mobile Fix ── */
+/* Fixed attachment on mobile zooms/crops the image to viewport height, cutting out subject.
+   Switch to scroll and position to keep the animal face visible. */
+@media (max-width: 768px) {
+  .bg-image-layer {
+    background-attachment: scroll !important;
+    background-position: center 25% !important;
+  }
+}
