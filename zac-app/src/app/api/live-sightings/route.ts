@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
   const limit = Math.min(Number(request.nextUrl.searchParams.get('limit') || '5'), 10);
 
   try {
-    const url = `https://api.inaturalist.org/v1/observations?taxon_name=${encodeURIComponent(taxonName)}&order=desc&order_by=observed_on&per_page=${limit}&quality_grade=research&photos=true`;
+    const url = `https://api.inaturalist.org/v1/observations?taxon_name=${encodeURIComponent(taxonName)}&order=desc&order_by=observed_on&per_page=${limit}&quality_grade=research&photos=true&locale=en`;
 
     const res = await fetch(url, { next: { revalidate: 1800 } }); // cache 30 minutes
     if (!res.ok) throw new Error(`iNaturalist returned ${res.status}`);
