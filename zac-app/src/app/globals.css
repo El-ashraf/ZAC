@@ -518,21 +518,19 @@ img { display: block; }
 
 /* ── Sleek Mono utilities ── */
 .mono-label {
-  font-family: var(--font-display);
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 1.4px;
-  text-transform: uppercase;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0;
 }
 .mono-eyebrow {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  font-family: var(--font-display);
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 1.6px;
-  text-transform: uppercase;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0;
   color: var(--primary);
 }
 .mono-rule {
@@ -541,9 +539,7 @@ img { display: block; }
   width: 100%;
 }
 .mono-panel {
-  background: rgba(8, 12, 9, 0.66);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  background: rgba(8, 12, 9, 0.78);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
 }
@@ -585,10 +581,9 @@ img { display: block; }
   color: #050806;
   border-radius: var(--radius-sm);
   border: none;
-  font-family: var(--font-display);
-  font-weight: 700;
-  letter-spacing: 0.6px;
-  text-transform: uppercase;
+  font-family: var(--font-body);
+  font-weight: 600;
+  letter-spacing: 0;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -606,10 +601,9 @@ img { display: block; }
   color: var(--primary);
   border: 1px solid var(--primary);
   border-radius: var(--radius-sm);
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-weight: 600;
-  letter-spacing: 0.6px;
-  text-transform: uppercase;
+  letter-spacing: 0;
   cursor: pointer;
   display: inline-flex;
   align-items: center;

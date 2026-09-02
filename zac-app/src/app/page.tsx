@@ -1,27 +1,12 @@
 'use client';
-import { useEffect, useState, useCallback, useRef } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import AnimalCard from '@/components/AnimalCard';
 import Link from 'next/link';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, ChevronLeft, ChevronRight, MapPin } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { ArrowRight, ChevronRight, MapPin } from 'lucide-react';
 
 type Animal = Record<string, any>;
 type Sighting = { id: number; observedOn: string; place: string; userName: string; photoUrl: string | null; uri: string };
-
-const FACTS = [
-  'A group of flamingos is called a flamboyance.',
-  'Octopuses have three hearts and blue blood.',
-  'Sloths can hold their breath longer than dolphins — up to 40 minutes!',
-  'The mantis shrimp can punch with the force of a bullet — 1,500 Newtons.',
-  'Butterflies taste food with their feet.',
-  "A tiger's stripes extend to the skin — each pattern is unique like a fingerprint.",
-  'Elephants are the only animals that cannot jump.',
-  'A group of jellyfish is called a smack.',
-  'Sharks are older than trees — they have existed for over 450 million years.',
-  'Crows can recognise and remember human faces.',
-  'Wombat droppings are cube-shaped — the only animal to produce cube-shaped scat.',
-  'Pistol shrimp can snap their claws fast enough to create a shockwave that stuns prey.',
-];
 
 const STATUS_STYLE: Record<string, { bg: string; color: string; border: string }> = {
   'Critically Endangered': { bg: 'rgba(239, 68, 68, 0.10)',  color: '#f87171', border: 'rgba(239, 68, 68, 0.3)' },
@@ -104,13 +89,6 @@ export default function Home() {
   const [weekNumber, setWeekNumber] = useState<number | null>(null);
   const [redList, setRedList] = useState<Animal[]>([]);
   const [recentAnimals, setRecentAnimals] = useState<Animal[]>([]);
-
-  // Facts Carousel States
-  const [factIndex, setFactIndex] = useState(0);
-  const [isFactPaused, setIsFactPaused] = useState(false);
-  const [factProgress, setFactProgress] = useState(0);
-  const progressInterval = useRef<NodeJS.Timeout | null>(null);
-
   const [sightings, setSightings] = useState<Sighting[]>([]);
   const [sightingsTotal, setSightingsTotal] = useState<number | null>(null);
   const [loadingFeatured, setLoadingFeatured] = useState(true);
@@ -147,45 +125,6 @@ export default function Home() {
       .then((d) => { setRecentAnimals(d); setLoadingSpotlight(false); })
       .catch(() => setLoadingSpotlight(false));
   }, [fetchFeatured]);
-
-  // Facts Timer Loop (with Pause on Hover)
-  useEffect(() => {
-    if (isFactPaused) {
-      if (progressInterval.current) clearInterval(progressInterval.current);
-      return;
-    }
-
-    const duration = 6000; // 6 seconds
-    const intervalTime = 100; // 100ms ticks
-    const steps = duration / intervalTime;
-    let currentStep = (factProgress / 100) * steps;
-
-    progressInterval.current = setInterval(() => {
-      currentStep++;
-      const nextProgress = (currentStep / steps) * 100;
-
-      if (nextProgress >= 100) {
-        setFactProgress(0);
-        setFactIndex((p) => (p + 1) % FACTS.length);
-      } else {
-        setFactProgress(nextProgress);
-      }
-    }, intervalTime);
-
-    return () => {
-      if (progressInterval.current) clearInterval(progressInterval.current);
-    };
-  }, [isFactPaused, factProgress]);
-
-  const handleNextFact = () => {
-    setFactProgress(0);
-    setFactIndex((p) => (p + 1) % FACTS.length);
-  };
-
-  const handlePrevFact = () => {
-    setFactProgress(0);
-    setFactIndex((p) => (p - 1 + FACTS.length) % FACTS.length);
-  };
 
   useEffect(() => {
     const checkHomeAuth = () => {
@@ -244,21 +183,16 @@ export default function Home() {
           style={{ maxWidth: '780px', width: '100%', margin: '0 auto', padding: '3rem 2.5rem', textAlign: 'left' }}
         >
           <div style={{ display: 'flex', gap: '0.8rem', flexWrap: 'wrap', marginBottom: '1.6rem', alignItems: 'center' }}>
-            <span className="mono-eyebrow" style={{ background: 'rgba(34,197,94,0.06)', border: '1px solid rgba(34,197,94,0.22)', padding: '0.32rem 0.85rem', borderRadius: '5px' }}>
-              <span className="live-badge" style={{ padding: 0, border: 'none', background: 'none', color: 'var(--primary)' }} />
-              Live Conservation Network
-            </span>
-
             {user ? (
               <Link href="/profile" className="mono-label" style={{
-                padding: '0.32rem 0.85rem', borderRadius: '5px', fontSize: '0.66rem', letterSpacing: '1px',
+                padding: '0.32rem 0.85rem', borderRadius: '5px', fontSize: '0.8rem',
                 background: 'rgba(34,197,94,0.06)', border: '1px solid rgba(34,197,94,0.25)', color: '#fff',
               }}>
                 {user.email.split('@')[0]}
               </Link>
             ) : (
               <Link href="/login" className="mono-label" style={{
-                padding: '0.32rem 0.85rem', borderRadius: '5px', fontSize: '0.66rem', letterSpacing: '1px',
+                padding: '0.32rem 0.85rem', borderRadius: '5px', fontSize: '0.8rem',
                 background: 'rgba(245,158,11,0.05)', border: '1px solid rgba(245,158,11,0.25)', color: 'var(--accent)',
               }}>
                 Log In / Sign Up
@@ -270,10 +204,7 @@ export default function Home() {
             fontFamily: 'var(--font-display)', letterSpacing: '-2px', fontWeight: 700,
             fontSize: 'clamp(2.4rem, 6vw, 4.2rem)', lineHeight: 1.05, marginBottom: '1.1rem',
           }}>
-            Nature in <span style={{
-              background: 'linear-gradient(135deg, #4ade80 0%, #22c55e 60%, #16a34a 100%)',
-              WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
-            }}>Focus</span>
+            Nature in <span style={{ color: 'var(--primary)' }}>Focus</span>
           </h1>
 
           <p style={{
@@ -284,31 +215,14 @@ export default function Home() {
           </p>
 
           <div style={{ display: 'flex', gap: '0.9rem', flexWrap: 'wrap' }}>
-            <Link href="/dashboard" className="btn-mono" style={{ padding: '0.8rem 1.8rem', fontSize: '0.82rem' }}>
+            <Link href="/dashboard" className="btn-mono" style={{ padding: '0.8rem 1.8rem', fontSize: '0.85rem' }}>
               Enter Dashboard <ArrowRight size={15} />
             </Link>
-            <Link href="/animals" className="btn-mono-outline" style={{ padding: '0.8rem 1.8rem', fontSize: '0.82rem' }}>
+            <Link href="/animals" className="btn-mono-outline" style={{ padding: '0.8rem 1.8rem', fontSize: '0.85rem' }}>
               Database Search
             </Link>
           </div>
         </motion.div>
-      </section>
-
-      {/* ── Stats Strip ── */}
-      <section style={{ maxWidth: 1100, margin: '0 auto', padding: '0 1.25rem 3.5rem' }}>
-        <div className="mono-stat-strip">
-          {[
-            { num: '900K+', label: 'Active Naturalists' },
-            { num: '50M+', label: 'Logged Observations' },
-            { num: '150K+', label: 'Species Cataloged' },
-            { num: 'iNaturalist', label: 'Live Data Source' },
-          ].map((s) => (
-            <div className="mono-stat" key={s.label}>
-              <span className="mono-stat-num">{s.num}</span>
-              <span className="mono-stat-label">{s.label}</span>
-            </div>
-          ))}
-        </div>
       </section>
 
       {/* ── Animal of the Week ── */}
@@ -326,7 +240,7 @@ export default function Home() {
                 <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.4rem', fontWeight: 700, color: 'var(--primary)', letterSpacing: '-0.5px' }}>
                   {aotWObs.toLocaleString()}
                 </div>
-                <div className="mono-label" style={{ color: 'var(--text-secondary)', fontSize: '0.62rem' }}>Total Sightings</div>
+                <div className="mono-label" style={{ color: 'var(--text-secondary)', fontSize: '0.8rem' }}>Total Sightings</div>
               </>
             )}
           </div>
@@ -370,13 +284,13 @@ export default function Home() {
               </p>
 
               <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '1.4rem' }}>
-                <span className="mono-label" style={{ background: 'rgba(168,85,247,0.06)', color: '#c084fc', border: '1px solid rgba(168,85,247,0.22)', padding: '0.3rem 0.75rem', borderRadius: '5px', fontSize: '0.64rem' }}>
+                <span className="mono-label" style={{ background: 'rgba(168,85,247,0.06)', color: '#c084fc', border: '1px solid rgba(168,85,247,0.22)', padding: '0.3rem 0.75rem', borderRadius: '5px', fontSize: '0.8rem' }}>
                   {featured.category}
                 </span>
                 {featured.wikipediaUrl && (
                   <a href={featured.wikipediaUrl} target="_blank" rel="noopener noreferrer" className="mono-label" style={{
                     background: 'rgba(34,197,94,0.04)', color: 'var(--primary)', border: '1px solid var(--border)',
-                    padding: '0.3rem 0.75rem', borderRadius: '5px', fontSize: '0.64rem', textDecoration: 'none',
+                    padding: '0.3rem 0.75rem', borderRadius: '5px', fontSize: '0.8rem', textDecoration: 'none',
                     display: 'inline-flex', alignItems: 'center', gap: '0.35rem', transition: 'border-color 0.2s',
                   }}
                     onMouseEnter={(e) => e.currentTarget.style.borderColor = 'var(--primary)'}
@@ -389,7 +303,7 @@ export default function Home() {
 
               {sightings.length > 0 && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                  <div className="mono-label" style={{ color: 'var(--text-secondary)', fontSize: '0.6rem' }}>Live iNaturalist Sightings</div>
+                  <div className="mono-label" style={{ color: 'var(--text-secondary)', fontSize: '0.8rem' }}>Live iNaturalist Sightings</div>
                   <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
                     {sightings.slice(0, 3).map((s) => (
                       <a key={s.id} href={s.uri} target="_blank" rel="noopener noreferrer" style={{
@@ -412,61 +326,6 @@ export default function Home() {
         ) : null}
       </section>
 
-      {/* ── Did You Know? Facts ── */}
-      <section style={{ maxWidth: 1100, margin: '0 auto', padding: '0 1.25rem 3rem' }}>
-        <div
-          className="mono-panel"
-          onMouseEnter={() => setIsFactPaused(true)}
-          onMouseLeave={() => setIsFactPaused(false)}
-          style={{ padding: '1.8rem 2rem', position: 'relative', overflow: 'hidden' }}
-        >
-          <div style={{ marginBottom: '0.7rem' }}>
-            <span className="mono-eyebrow">Wildlife Fact Archive</span>
-          </div>
-
-          <div style={{ minHeight: '3.2rem', display: 'flex', alignItems: 'center', margin: '0.4rem 0 0.9rem' }}>
-            <AnimatePresence mode="wait">
-              <motion.p
-                key={factIndex}
-                initial={{ opacity: 0, x: 16 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -16 }}
-                transition={{ duration: 0.3 }}
-                style={{ fontSize: '1.08rem', color: '#fff', lineHeight: 1.6, maxWidth: '680px', fontWeight: 400 }}
-              >
-                {FACTS[factIndex]}
-              </motion.p>
-            </AnimatePresence>
-          </div>
-
-          <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', gap: '1.1rem' }}>
-            <button
-              onClick={handlePrevFact}
-              style={{ background: 'transparent', border: '1px solid var(--border)', color: 'var(--text-primary)', width: '30px', height: '30px', borderRadius: '5px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}
-              onMouseEnter={e => e.currentTarget.style.borderColor = 'var(--primary)'}
-              onMouseLeave={e => e.currentTarget.style.borderColor = 'var(--border)'}
-            >
-              <ChevronLeft size={15} />
-            </button>
-            <span className="mono-label" style={{ fontSize: '0.62rem', color: 'var(--text-muted)' }}>
-              {factIndex + 1} / {FACTS.length}{isFactPaused ? ' · Paused' : ''}
-            </span>
-            <button
-              onClick={handleNextFact}
-              style={{ background: 'transparent', border: '1px solid var(--border)', color: 'var(--text-primary)', width: '30px', height: '30px', borderRadius: '5px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}
-              onMouseEnter={e => e.currentTarget.style.borderColor = 'var(--primary)'}
-              onMouseLeave={e => e.currentTarget.style.borderColor = 'var(--border)'}
-            >
-              <ChevronRight size={15} />
-            </button>
-          </div>
-
-          <div style={{ position: 'absolute', bottom: 0, left: 0, width: '100%', height: '2px', background: 'rgba(255,255,255,0.05)' }}>
-            <div style={{ height: '100%', width: `${factProgress}%`, background: 'var(--primary)', transition: 'width 0.1s linear' }} />
-          </div>
-        </div>
-      </section>
-
       {/* ── Red List Highlights ── */}
       <section style={{ maxWidth: 1280, margin: '0 auto', padding: '3rem 1.25rem' }}>
         <div style={sectionHeaderStyle}>
@@ -476,7 +335,7 @@ export default function Home() {
               Red List Highlights
             </h2>
           </div>
-          <Link href="/red-list" className="mono-label" style={{ fontSize: '0.7rem', color: 'var(--primary)', display: 'inline-flex', alignItems: 'center', gap: '0.3rem', textDecoration: 'none' }}>
+          <Link href="/red-list" className="mono-label" style={{ fontSize: '0.8rem', color: 'var(--primary)', display: 'inline-flex', alignItems: 'center', gap: '0.3rem', textDecoration: 'none' }}>
             View Full Archive <ChevronRight size={15} />
           </Link>
         </div>
