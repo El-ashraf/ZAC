@@ -163,14 +163,27 @@ export default function BlogPage() {
           </div>
         ) : filteredPosts.length === 0 ? (
           <div className="glass" style={{ padding: '3rem', textAlign: 'center', border: '1px solid var(--border)', borderRadius: '20px' }}>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '1.05rem', fontWeight: 650 }}>No articles found matching your filters.</p>
-            <button 
-              onClick={() => { setSearchQuery(''); setActiveCategory('All'); }}
-              className="btn" 
-              style={{ marginTop: '1rem', fontSize: '0.82rem', padding: '0.5rem 1.2rem' }}
-            >
-              Reset Filters
-            </button>
+            {posts.length === 0 ? (
+              <>
+                <p style={{ color: 'var(--text-primary)', fontSize: '1.15rem', fontWeight: 700, marginBottom: '0.5rem' }}>
+                  No articles published yet.
+                </p>
+                <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem' }}>
+                  Blog posts will appear here once they are published by our team.
+                </p>
+              </>
+            ) : (
+              <>
+                <p style={{ color: 'var(--text-secondary)', fontSize: '1.05rem', fontWeight: 650 }}>No articles found matching your filters.</p>
+                <button
+                  onClick={() => { setSearchQuery(''); setActiveCategory('All'); }}
+                  className="btn"
+                  style={{ marginTop: '1rem', fontSize: '0.82rem', padding: '0.5rem 1.2rem' }}
+                >
+                  Reset Filters
+                </button>
+              </>
+            )}
           </div>
         ) : (
           /* Articles Grid */

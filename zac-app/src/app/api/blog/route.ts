@@ -33,15 +33,6 @@ export async function GET(request: Request) {
       posts = getFallbackBlogDb();
     } else {
       posts = await BlogPost.find({}).sort({ createdAt: -1 });
-      
-      // If MongoDB is connected but empty, let's seed it with the fallback posts
-      if (posts.length === 0) {
-        const seedPosts = getFallbackBlogDb();
-        if (seedPosts.length > 0) {
-          await BlogPost.insertMany(seedPosts);
-          posts = await BlogPost.find({}).sort({ createdAt: -1 });
-        }
-      }
     }
 
     // Sort by createdAt descending (newest first)
