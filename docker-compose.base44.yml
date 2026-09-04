@@ -1,0 +1,36 @@
+services:
+  mongo:
+    image: mongo:7
+    restart: unless-stopped
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=zac
+      - MONGO_INITDB_ROOT_PASSWORD=zacpass
+      - MONGO_INITDB_DATABASE=zac
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  web:
+    image: node:22
+    working_dir: /app
+    restart: unless-stopped
+    depends_on:
+      mongo:
+        condition: service_healthy
+    volumes:
+      - ./zac-app:/app
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGODB_URI=mongodb://zac:zacpass@mongo:27017/zac?authSource=admin
+      - BASE44_PUBLIC_HOST_SUFFIX=${BASE44_PUBLIC_HOST_SUFFIX}
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
+    command: sh -c "npm install && npx next dev -H 0.0.0.0 -p 3000"
+
+volumes:
+  mongo_data:

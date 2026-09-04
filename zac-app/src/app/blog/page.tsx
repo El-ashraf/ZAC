@@ -89,23 +89,12 @@ export default function BlogPage() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5 }}
-            style={{
-              display: 'inline-flex',
-              padding: '0.4rem 1.1rem',
-              borderRadius: '40px',
-              background: 'rgba(34, 197, 94, 0.08)',
-              border: '1px solid rgba(34, 197, 94, 0.25)',
-              marginBottom: '1.25rem',
-              color: 'var(--primary)',
-              fontSize: '0.82rem',
-              fontWeight: 700,
-              letterSpacing: '1px',
-              textTransform: 'uppercase'
-            }}
+            className="mono-eyebrow"
+            style={{ marginBottom: '1.25rem' }}
           >
-            📚 FIELD LOGS & ARTICLES
+            Field Logs &amp; Articles
           </motion.div>
-          <h1 className="section-title" style={{ fontSize: 'clamp(2rem, 5vw, 3rem)' }}>ZAC Conservation Blog</h1>
+          <h1 className="section-title" style={{ fontSize: 'clamp(2rem, 5vw, 3rem)' }}>Conservation Blog</h1>
           <p style={{ color: 'var(--text-secondary)', fontSize: '1.1rem', maxWidth: '650px', margin: '0 auto', lineHeight: 1.65 }}>
             Read recent expeditions reports, deep-sea research findings, and community conservation logs straight from the field.
           </p>
@@ -174,14 +163,27 @@ export default function BlogPage() {
           </div>
         ) : filteredPosts.length === 0 ? (
           <div className="glass" style={{ padding: '3rem', textAlign: 'center', border: '1px solid var(--border)', borderRadius: '20px' }}>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '1.05rem', fontWeight: 650 }}>No articles found matching your filters.</p>
-            <button 
-              onClick={() => { setSearchQuery(''); setActiveCategory('All'); }}
-              className="btn" 
-              style={{ marginTop: '1rem', fontSize: '0.82rem', padding: '0.5rem 1.2rem' }}
-            >
-              Reset Filters
-            </button>
+            {posts.length === 0 ? (
+              <>
+                <p style={{ color: 'var(--text-primary)', fontSize: '1.15rem', fontWeight: 700, marginBottom: '0.5rem' }}>
+                  No articles published yet.
+                </p>
+                <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem' }}>
+                  Blog posts will appear here once they are published by our team.
+                </p>
+              </>
+            ) : (
+              <>
+                <p style={{ color: 'var(--text-secondary)', fontSize: '1.05rem', fontWeight: 650 }}>No articles found matching your filters.</p>
+                <button
+                  onClick={() => { setSearchQuery(''); setActiveCategory('All'); }}
+                  className="btn"
+                  style={{ marginTop: '1rem', fontSize: '0.82rem', padding: '0.5rem 1.2rem' }}
+                >
+                  Reset Filters
+                </button>
+              </>
+            )}
           </div>
         ) : (
           /* Articles Grid */

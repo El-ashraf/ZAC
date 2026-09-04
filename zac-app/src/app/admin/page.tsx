@@ -136,7 +136,7 @@ export default function AdminDashboard() {
         >
           🔐 SECURE ARCHIVE PORTAL
         </motion.div>
-        <h1 className="section-title">🌿 Zoology Archive Manager</h1>
+        <h1 className="section-title">Zoology Archive Manager</h1>
         <p style={{ color: 'var(--text-secondary)', maxWidth: '600px', margin: '0 auto', fontSize: '1.05rem' }}>
           Add new species to the catalog or write field logs for the Zoology Animal Club blog.
         </p>

@@ -71,7 +71,7 @@ export default function BlogPostDetail({ params }: { params: Promise<{ slug: str
             }}
           >
             <ArrowLeft size={16} />
-            Back to ZAC Blog
+            Back to Blog
           </Link>
         </div>
 
@@ -85,40 +85,33 @@ export default function BlogPostDetail({ params }: { params: Promise<{ slug: str
           <div className="glass" style={{ padding: '4rem', textAlign: 'center', border: '1px solid rgba(239,68,68,0.2)' }}>
             <h2 style={{ color: '#f87171', fontWeight: 800, marginBottom: '1rem' }}>Log File Not Found</h2>
             <p style={{ color: 'var(--text-secondary)', marginBottom: '2rem' }}>
-              The requested conservation report slug does not correspond to a registered ZAC database log.
+              The requested conservation report slug does not correspond to a registered database log.
             </p>
             <Link href="/blog" className="btn" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}>
               Return to Blog <ArrowRight size={14} />
             </Link>
           </div>
         ) : (
-          <motion.div
+          <motion.article
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="glass"
-            style={{
-              padding: '3rem',
-              border: '1px solid rgba(34, 197, 94, 0.2)',
-              boxShadow: '0 20px 50px rgba(0,0,0,0.4)',
-              borderRadius: '24px'
-            }}
           >
             {/* Meta */}
             <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', fontSize: '0.8rem', color: 'var(--primary)', fontWeight: 600, marginBottom: '1rem' }}>
-              <span style={{ textTransform: 'uppercase', letterSpacing: '0.5px' }}>🧬 {post.category}</span>
+              <span style={{ textTransform: 'uppercase', letterSpacing: '0.5px' }}>{post.category}</span>
               <span>•</span>
-              <span>🗓️ {new Date(post.createdAt || 0).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
+              <span>{new Date(post.createdAt || 0).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
               <span>•</span>
-              <span>⏱️ {post.readTime}</span>
+              <span>{post.readTime}</span>
             </div>
 
-            <h1 style={{ 
-              fontSize: 'clamp(1.8rem, 4vw, 2.6rem)', 
-              fontWeight: 900, 
-              color: '#fff', 
-              letterSpacing: '-1px', 
-              lineHeight: 1.25, 
+            <h1 style={{
+              fontSize: 'clamp(1.8rem, 4vw, 2.6rem)',
+              fontWeight: 900,
+              color: '#fff',
+              letterSpacing: '-1px',
+              lineHeight: 1.25,
               marginBottom: '1.25rem',
               fontFamily: 'var(--font-display)'
             }}>
@@ -127,29 +120,28 @@ export default function BlogPostDetail({ params }: { params: Promise<{ slug: str
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', fontSize: '0.9rem', color: 'var(--text-secondary)', marginBottom: '2.5rem' }}>
               <User size={14} />
-              <span>By <strong>{post.author}</strong> — ZAC Field Correspondent</span>
+              <span>By <strong>{post.author}</strong> — Zoology Animal Club Field Correspondent</span>
             </div>
 
-            {/* Main Cover Image */}
-            <div style={{ 
-              width: '100%', 
-              height: '380px', 
-              borderRadius: '16px', 
-              overflow: 'hidden', 
-              marginBottom: '2.5rem',
+            {/* Full-width Cover Image */}
+            <div style={{
+              width: '100%',
+              height: '420px',
+              borderRadius: '12px',
+              overflow: 'hidden',
+              marginBottom: '3rem',
               boxShadow: '0 10px 30px rgba(0,0,0,0.5)',
-              border: '1px solid rgba(255,255,255,0.06)'
             }}>
               <img src={post.coverImage} alt={post.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </div>
 
-            {/* Article Content Text (formatted) */}
-            <div 
-              style={{ 
-                fontSize: '1.05rem', 
-                lineHeight: 1.85, 
-                color: '#e2f0d9', 
-                fontWeight: 300 
+            {/* Article Content */}
+            <div
+              style={{
+                fontSize: '1.05rem',
+                lineHeight: 1.85,
+                color: '#e2f0d9',
+                fontWeight: 300,
               }}
               dangerouslySetInnerHTML={{
                 __html: post.content
@@ -158,7 +150,7 @@ export default function BlogPostDetail({ params }: { params: Promise<{ slug: str
                   .replace(/\n\n/g, '<p style="margin-bottom: 1.5rem;"></p>')
               }}
             />
-          </motion.div>
+          </motion.article>
         )}
       </div>
     </main>

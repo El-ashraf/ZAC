@@ -73,25 +73,14 @@ export default function ContactPage() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5 }}
-            style={{
-              display: 'inline-flex',
-              padding: '0.4rem 1.1rem',
-              borderRadius: '40px',
-              background: 'rgba(6, 182, 212, 0.08)',
-              border: '1px solid rgba(6, 182, 212, 0.25)',
-              marginBottom: '1.25rem',
-              color: 'var(--ocean)',
-              fontSize: '0.82rem',
-              fontWeight: 700,
-              letterSpacing: '1px',
-              textTransform: 'uppercase'
-            }}
+            className="mono-eyebrow"
+            style={{ color: 'var(--ocean)', marginBottom: '1.25rem' }}
           >
-            📬 CONTACT HEADQUARTERS
+            Contact Headquarters
           </motion.div>
-          <h1 className="section-title" style={{ fontSize: 'clamp(2rem, 5vw, 3rem)' }}>Get in Touch with ZAC</h1>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '1.1rem', maxWidth: '650px', margin: '0 auto', lineHeight: 1.65 }}>
-            Have a question about ZAC memberships, species data catalogs, or volunteering for upcoming expeditions? Fill out the form below.
+          <h1 className="section-title" style={{ fontSize: 'clamp(2rem, 5vw, 3rem)' }}>Get in Touch</h1>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '1.05rem', maxWidth: '620px', margin: '0 auto', lineHeight: 1.65 }}>
+            Have a question about memberships, species data catalogs, or volunteering for upcoming expeditions? Fill out the form below.
           </p>
         </div>
 
@@ -168,7 +157,7 @@ export default function ContactPage() {
             <div style={{ height: '1px', background: 'var(--border)', opacity: 0.6 }} />
 
             <div style={{ fontSize: '0.8rem', color: 'var(--text-primary)', opacity: 0.6 }}>
-              ⏱️ Administrative hours: Mon - Fri, 09:00 - 17:00 (GMT+7 Javan Time)
+              Administrative hours: Mon – Fri, 09:00 – 17:00 (GMT+7 Javan Time)
             </div>
           </motion.div>
 

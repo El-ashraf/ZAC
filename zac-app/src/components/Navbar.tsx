@@ -3,15 +3,15 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { 
-  Menu, X, ShieldAlert, User, LogIn, LogOut, ChevronDown,
-  LayoutDashboard, Database, RefreshCw, ChevronLeft, ChevronRight, Home, Globe, Sun, Moon, Sparkles, MessageSquare, BookOpen
+import {
+  Menu, X, ShieldAlert, User, LogIn, LogOut,
+  LayoutDashboard, Database, RefreshCw, ChevronLeft, ChevronRight, Globe, Sun, Moon, BookOpen, MessageSquare, Compass
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const PUBLIC_LINKS = [
   { href: '/about',     label: 'About',     icon: Globe },
-  { href: '/campaigns', label: 'Campaigns', icon: Sparkles },
+  { href: '/campaigns', label: 'Campaigns', icon: Compass },
   { href: '/blog',      label: 'Blog',      icon: BookOpen },
   { href: '/contact',   label: 'Contact',   icon: MessageSquare },
 ];
@@ -138,10 +138,10 @@ export default function Navbar({
         {/* Brand logo container */}
         <Link href="/" className="nav-brand" style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
           <div className="nav-logo-wrapper" style={{ display: 'flex', alignItems: 'center' }}>
-            <span className="nav-brand-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>🌿</span>
+            <img src="/logo.png" alt="Zoology Animal Club" style={{ height: '36px', width: 'auto', objectFit: 'contain' }} />
           </div>
-          <span style={{ fontWeight: 800, fontSize: '1.25rem', fontFamily: 'var(--font-display)', letterSpacing: '-0.5px' }}>
-            {isMobile ? 'ZAC' : 'Zoology Animal Club'}
+          <span style={{ fontWeight: 700, fontSize: isMobile ? '0.85rem' : '1rem', fontFamily: 'var(--font-display)', letterSpacing: '-0.2px', textTransform: 'uppercase' }}>
+            {isMobile ? 'Zoology Animal Club' : 'Zoology Animal Club'}
           </span>
         </Link>
 
@@ -480,8 +480,8 @@ export default function Navbar({
           zIndex: 999,
         }}>
           <Link href="/dashboard" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <span style={{ fontSize: '1.25rem' }}>🌿</span>
-            <span style={{ fontWeight: 800, fontSize: '1.1rem', fontFamily: 'var(--font-display)', color: 'var(--primary)', letterSpacing: '-0.5px' }}>ZAC Portal</span>
+            <img src="/logo.png" alt="Zoology Animal Club" style={{ height: '28px', width: 'auto', objectFit: 'contain' }} />
+            <span style={{ fontWeight: 700, fontSize: '0.82rem', fontFamily: 'var(--font-display)', color: 'var(--primary)', letterSpacing: '-0.2px', textTransform: 'uppercase' }}>Zoology Animal Club</span>
           </Link>
           <button
             onClick={() => setIsOpen(!isOpen)}
@@ -555,16 +555,19 @@ export default function Navbar({
                   justifyContent: isCollapsed && !isMobile ? 'center' : 'space-between',
                   height: '40px',
                 }}>
-                  <Link href="/dashboard" style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', textDecoration: 'none' }}>
-                    <span style={{ fontSize: '1.5rem', display: 'block' }}>🌿</span>
+                  <Link href="/dashboard" style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', textDecoration: 'none', overflow: 'hidden' }}>
+                    <img src="/logo.png" alt="Zoology Animal Club" style={{ height: '28px', width: 'auto', objectFit: 'contain', flexShrink: 0 }} />
                     {(!isCollapsed || isMobile) && (
                       <span style={{
-                        fontWeight: 800,
-                        fontSize: '1.05rem',
+                        fontWeight: 700,
+                        fontSize: '0.82rem',
                         fontFamily: 'var(--font-display)',
                         color: '#fff',
                         whiteSpace: 'nowrap',
-                        letterSpacing: '-0.5px'
+                        letterSpacing: '-0.2px',
+                        textTransform: 'uppercase',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis'
                       }}>
                         Zoology Animal Club
                       </span>

@@ -1,5 +1,6 @@
 'use client';
 import { motion } from 'framer-motion';
+import { MapPin } from 'lucide-react';
 
 function getBadgeColor(status: string) {
   switch (status) {
@@ -13,21 +14,10 @@ function getBadgeColor(status: string) {
   }
 }
 
-const STATUS_EMOJI: Record<string, string> = {
-  'Critically Endangered': '🔴',
-  'Endangered':            '🟠',
-  'Vulnerable':            '🟡',
-  'Near Threatened':       '🟢',
-  'Least Concern':         '✅',
-  'Extinct':               '💀',
-  'Extinct in the Wild':   '☠️',
-  'Not Evaluated':         '🔵',
-};
-
 export default function AnimalCard({ animal }: { animal: any }) {
   const rawUrl = animal.images?.[0];
   const imageUrl = rawUrl && rawUrl.trim() !== '' ? rawUrl : null;
-  const fallbackSrc = `https://placehold.co/400x250/0d1310/22c55e?text=${encodeURIComponent(animal.name || 'Animal')}`;
+  const fallbackSrc = `https://placehold.co/400x250/050806/22c55e?text=${encodeURIComponent(animal.name || 'Animal')}`;
   const statusColor = getBadgeColor(animal.conservationStatus);
 
   return (
@@ -37,10 +27,10 @@ export default function AnimalCard({ animal }: { animal: any }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
       style={{
-        background: 'var(--bg-card)',
+        background: 'rgba(8, 12, 9, 0.66)',
         backdropFilter: 'blur(12px)',
         border: '1px solid var(--border)',
-        borderRadius: '16px',
+        borderRadius: 'var(--radius-md)',
         overflow: 'hidden',
         boxShadow: 'none',
         display: 'flex',
@@ -63,26 +53,27 @@ export default function AnimalCard({ animal }: { animal: any }) {
           loading="lazy"
           className="card-img-element"
         />
-        
-        {/* Modern minimal status dot indicator */}
-        <div style={{ position: 'absolute', top: 12, right: 12, background: 'var(--bg-glass)', backdropFilter: 'blur(6px)', padding: '0.3rem 0.75rem', borderRadius: '20px', display: 'flex', alignItems: 'center', gap: '0.4rem', border: '1px solid var(--border)', fontSize: '0.72rem', fontWeight: 600 }}>
-          <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: statusColor }} />
+
+        {/* Minimal status dot indicator */}
+        <div style={{ position: 'absolute', top: 10, right: 10, background: 'rgba(5,8,6,0.72)', backdropFilter: 'blur(6px)', padding: '0.28rem 0.7rem', borderRadius: 'var(--radius-sm)', display: 'flex', alignItems: 'center', gap: '0.4rem', border: '1px solid var(--border)', fontFamily: 'var(--font-display)', fontSize: '0.66rem', fontWeight: 700, letterSpacing: '0.6px', textTransform: 'uppercase' }}>
+          <span style={{ width: 6, height: 6, borderRadius: '50%', background: statusColor }} />
           <span style={{ color: 'var(--text-primary)' }}>{animal.conservationStatus}</span>
         </div>
       </div>
 
       {/* Content wrapper */}
       <div style={{ padding: '1.25rem', display: 'flex', flexDirection: 'column', flex: 1 }}>
-        <h3 style={{ fontSize: '1.1rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '0.2rem', letterSpacing: '-0.3px' }}>
+        <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.2rem', fontFamily: 'var(--font-display)', letterSpacing: '-0.3px' }}>
           {animal.name}
         </h3>
-        <p style={{ fontStyle: 'italic', color: 'var(--text-secondary)', fontSize: '0.8rem', marginBottom: '0.75rem' }}>
+        <p style={{ fontStyle: 'italic', color: 'var(--text-secondary)', fontSize: '0.78rem', marginBottom: '0.75rem' }}>
           {animal.scientificName}
         </p>
 
         {animal.habitat && (
-          <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
-            <span>📍</span> {animal.habitat}
+          <p style={{ fontSize: '0.76rem', color: 'var(--text-muted)', marginBottom: '0.75rem', display: 'flex', alignItems: 'flex-start', gap: '0.35rem', lineHeight: 1.5 }}>
+            <MapPin size={13} style={{ flexShrink: 0, marginTop: '0.12rem', color: 'var(--primary)' }} />
+            <span>{animal.habitat}</span>
           </p>
         )}
 
@@ -106,8 +97,8 @@ export default function AnimalCard({ animal }: { animal: any }) {
         {/* Footer info (sightings count / wiki link) */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 'auto', paddingTop: '0.75rem', borderTop: '1px solid var(--border)', fontSize: '0.75rem' }}>
           {animal.observationsCount !== undefined ? (
-            <span style={{ color: 'var(--text-muted)', fontWeight: 500 }}>
-              🔭 {animal.observationsCount?.toLocaleString()} observations
+            <span style={{ color: 'var(--text-muted)', fontWeight: 700, fontFamily: 'var(--font-display)', letterSpacing: '0.4px', textTransform: 'uppercase', fontSize: '0.66rem' }}>
+              {animal.observationsCount?.toLocaleString()} observations
             </span>
           ) : (
             <span />
